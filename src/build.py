@@ -26,7 +26,7 @@ def ill(name):
 def dv_img(d):
     # 章節頁右側：有 img 用實機截圖，否則用插圖
     if d.get("img"):
-        return f'<img class="ill" style="border-radius:24px;box-shadow:0 12px 40px rgba(30,58,110,.18)" src="{SHOT}{d["img"]}" alt="">'
+        return f'<img class="ill" style="height:auto;border-radius:24px;box-shadow:0 12px 40px rgba(30,58,110,.18)" src="{SHOT}{d["img"]}" alt="">'
     return ill(d["ill"])
 
 

@@ -7,7 +7,7 @@
 <meta name="description" content="活化教學與多元學習計畫參訪中山國中酷AI 智匯教室（2026-12-10）簡報「不上雲端的 AI——活化教學的另一種想像」：中山國中 AI 算力中心的 8 個設計決定。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=LXGW+WenKai+TC:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#1E3A6E; --ink:#22314d; --blue:#3B82C4; --sky:#5AA9E6; --pale:#DCEEFB; --paper:#FBFDFF;
@@ -24,7 +24,7 @@ html,body{margin:0;height:100%;background:#E9EFF6;color:var(--ink);font-family:"
 .slide::before{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:linear-gradient(90deg,var(--sky),var(--pale) 60%,var(--orange))}
 .inner{position:absolute;inset:70px 120px 70px 120px;display:flex;flex-direction:column}
 .pno{position:absolute;right:40px;bottom:30px;font:600 30px Caveat,cursive;color:var(--blue)}
-.kicker{font:700 30px "LXGW WenKai TC",serif;color:var(--blue);letter-spacing:.06em;margin-bottom:6px}
+.kicker{font:700 30px "Noto Sans TC",sans-serif;color:var(--blue);letter-spacing:.06em;margin-bottom:6px}
 .kicker::before{content:"✎ ";color:var(--orange)}
 .kicker.big{font-size:44px}
 .title{margin:0 0 40px;font-weight:900;font-size:76px;color:var(--navy);line-height:1.15}
@@ -38,19 +38,19 @@ mark{background:linear-gradient(transparent 55%,var(--pale) 55%);color:inherit}
 .cover{position:absolute;inset:-70px -120px;display:flex;align-items:center;justify-content:center}
 .cover .ill{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .cover-text{position:relative;text-align:center;background:rgba(251,253,255,.82);padding:40px 70px;border-radius:40px;box-shadow:0 0 60px 30px rgba(251,253,255,.85)}
-.cover .org{font:700 34px "LXGW WenKai TC",serif;color:var(--blue)}
+.cover .org{font:700 34px "Noto Sans TC",sans-serif;color:var(--blue)}
 .cover h1{font-weight:900;font-size:112px;line-height:1.15;color:var(--navy);margin:18px 0}
 .cover h1 mark{border-bottom:8px solid var(--orange)}
 .cover .meta{font-size:40px;font-weight:700;color:var(--ink)}
 .cover .who{margin-top:26px;display:flex;gap:40px;justify-content:center;font-size:36px}
-.cover .who b{font:700 46px "LXGW WenKai TC",serif;color:#B5462E}
-.cover .hand{font:600 80px Caveat,cursive;color:var(--blue)}
+.cover .who b{font:700 46px "Noto Sans TC",sans-serif;color:#B5462E}
+.cover .hand{font:700 64px "Noto Sans TC",sans-serif;letter-spacing:.08em;color:var(--blue)}
 /* 章節頁 */
 .divider{display:flex;align-items:center;height:100%;gap:60px}
 .dv-text{flex:1}
 .dv-title{font-weight:900;font-size:130px;color:var(--navy);margin:10px 0;line-height:1.1}
-.dv-sub{font:700 60px "LXGW WenKai TC",serif;color:var(--ink);border-bottom:8px solid var(--orange);display:inline-block;padding-bottom:6px}
-.dv-ill{width:760px;height:760px;flex:none}
+.dv-sub{font:700 60px "Noto Sans TC",sans-serif;color:var(--ink);border-bottom:8px solid var(--orange);display:inline-block;padding-bottom:6px}
+.dv-ill{width:760px;height:760px;flex:none;display:flex;align-items:center}
 .dv-ill .ill{width:100%;height:100%;object-fit:contain}
 /* 條列 */
 .bul{margin:auto 0;padding-left:1.2em;font-size:50px;line-height:1.55}
@@ -65,7 +65,7 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
   border-radius:255px 18px 225px 18px/18px 225px 18px 255px;box-shadow:8px 10px 0 var(--pale)}
 .card h3{margin:0 0 14px;font-size:44px;font-weight:900;color:var(--navy)}
 .card p{margin:0;font-size:36px;line-height:1.5}
-.card .note{margin-top:18px;font:700 30px "LXGW WenKai TC",serif;color:#B5462E}
+.card .note{margin-top:18px;font:700 30px "Noto Sans TC",sans-serif;color:#B5462E}
 .card .num{width:64px;height:64px;border-radius:50%;background:var(--orange);color:#fff;font:900 38px/64px "Noto Sans TC";text-align:center;margin-bottom:14px}
 .arrows .card:not(:last-child)::after{content:"➜";position:absolute;right:-36px;top:46%;font-size:40px;color:var(--orange)}
 .rd1{background:#F1F8FE}
@@ -113,7 +113,7 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 .illus{flex:1;min-height:0;display:flex;justify-content:center}
 .illus .ill{height:100%;max-width:100%;object-fit:contain;border-radius:24px}
 .ill.missing{display:flex;align-items:center;justify-content:center;border:4px dashed var(--line);color:var(--muted);font-size:40px;width:70%;border-radius:30px}
-.quote{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;margin:0;font:700 72px/1.55 "LXGW WenKai TC",serif;color:var(--navy)}
+.quote{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;margin:0;font:700 72px/1.55 "Noto Sans TC",sans-serif;color:var(--navy)}
 .quote.q2{flex:none;font-size:64px;margin:20px 0 40px}
 .rel{margin-top:26px;display:flex;align-items:center;gap:22px;font:900 44px 'Noto Sans TC';color:var(--navy)}.rel .tag{flex:none;font:700 28px 'Noto Sans TC';color:#fff;background:var(--sky);border-radius:30px;padding:8px 22px}
 .aiday{display:flex;gap:60px;align-items:center;flex:1}
@@ -212,14 +212,14 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 <section class="slide t-bullets" id="p4" data-label="4"><div class="inner"><div class="kicker">今天的一個問題</div><h2 class="title"><span>學校多了兩台 AI 電腦，學生的學習會有什麼不一樣？</span></h2><ul class="bul"><li class="">如果只是「問 AI 更快」——雲端早就做得到，不需要這間教室</li><li class="hl">我們想做的是：把 AI 從<b>用來學習</b>，延伸到<b>動手創作、親手訓練</b></li><li class="">所以今天講的不是功能，是 <b>8 個設計決定</b>，和每個決定放棄了什麼</li></ul></div><div class="pno">4</div></section>
 <section class="slide t-bullets" id="p5" data-label="5"><div class="inner"><div class="kicker">先做一件事</div><h2 class="title"><span>請先加入今天的 LINE 群組</span></h2><ul class="bul"><li class="">掃螢幕上的 QR Code 加入（QR Code 現場提供）</li><li class="">聽的過程中想到什麼，<b>隨時丟進群組</b></li><li class="hl">最後 10 分鐘，我們一起回答一個問題：<br><b>像中山國中這樣的 AI 教室，該進行怎麼樣的教學？</b></li></ul><p class="foot">今天不是我講完就結束——最後的答案由大家來寫</p></div><div class="pno">5</div></section>
 <section class="slide t-divider" id="p6" data-label="6"><div class="inner"><div class="divider"><div class="dv-text"><div class="kicker big">01｜起點</div>
-<h2 class="dv-title">兩週、兩台電腦、一間教室</h2><div class="dv-sub">先有教室，才開始想系統</div></div>
-<div class="dv-ill"><img class="ill" style="border-radius:24px;box-shadow:0 12px 40px rgba(30,58,110,.18)" src="assets/shots/zs_home.jpg" alt=""></div></div></div><div class="pno">6</div></section>
+<h2 class="dv-title">兩週、兩台電腦<br>一間教室</h2><div class="dv-sub">先有教室，才開始想系統</div></div>
+<div class="dv-ill"><img class="ill" style="height:auto;border-radius:24px;box-shadow:0 12px 40px rgba(30,58,110,.18)" src="assets/shots/zs_home.jpg" alt=""></div></div></div><div class="pno">6</div></section>
 <section class="slide t-stats" id="p7" data-label="7"><div class="inner"><div class="kicker">這間教室有什麼</div><h2 class="title"><span>酷AI 智匯教室</span></h2><div class="cards c4"><div class="card stat"><div class="big">2 台</div><h3>ASUS Ascent GX10</h3><p>桌上型 AI 電腦，放在校內</p></div><div class="card stat"><div class="big">70 台</div><h3>Chromebook</h3><p>學生打開網頁就能用</p></div><div class="card stat"><div class="big">0 個</div><h3>帳號</h3><p>免登入</p></div><div class="card stat"><div class="big">10 項</div><h3>學生可以動手的功能</h3><p>創作、探究、訓練 AI</p></div></div><p class="foot">硬體由華碩文教基金會捐贈；教室由教育局整建；系統由臺北市數位學習中心設計建置</p><p class="src">資料來源｜2026-10-16 啟用儀式相關報導（iThome、科技新報）；平台系統架構頁</p></div><div class="pno">7</div></section>
 <section class="slide t-video" id="p8" data-label="8"><div class="inner"><div class="kicker">10 月 16 日</div><h2 class="title"><span>啟用儀式：學生介紹，再帶來賓操作</span></h2><div class="shot video"><iframe src="https://www.youtube.com/embed/U7p-I8DUr9k" title="啟用儀式：學生介紹，再帶來賓操作" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><p class="foot">當天流程：6 位學生，2 位介紹平台，再把 Chromebook 交給來賓，學生陪來賓操作</p><p class="src">資料來源｜壹電視 NEXT TV</p></div><div class="pno">8</div></section>
 <section class="slide t-flow" id="p9" data-label="9"><div class="inner"><div class="kicker">時間很短</div><h2 class="title"><span>從接到任務到啟用，兩週</span></h2><div class="cards c4 arrows"><div class="card"><div class="num">1</div><h3>10/1</h3><p>接到任務<br>當天做出第一版</p></div><div class="card"><div class="num">2</div><h3>10/2</h3><p>到校裝機<br>老師開始試用</p></div><div class="card"><div class="num">3</div><h3>10/5–10/15</h3><p>依老師與學生試用<br>每天修改</p></div><div class="card"><div class="num">4</div><h3>10/16</h3><p>啟用儀式</p></div></div><p class="foot">時間短有一個好處：沒辦法先寫完整計畫，只能做出來、給老師用、再改</p></div><div class="pno">9</div></section>
 <section class="slide t-divider" id="p10" data-label="10"><div class="inner"><div class="divider"><div class="dv-text"><div class="kicker big">02｜設計決定</div>
 <h2 class="dv-title">為什麼長這樣？</h2><div class="dv-sub">8 個決定，和每個決定放棄了什麼</div></div>
-<div class="dv-ill"><img class="ill" style="border-radius:24px;box-shadow:0 12px 40px rgba(30,58,110,.18)" src="assets/shots/zs_arch.jpg" alt=""></div></div></div><div class="pno">10</div></section>
+<div class="dv-ill"><img class="ill" style="height:auto;border-radius:24px;box-shadow:0 12px 40px rgba(30,58,110,.18)" src="assets/shots/zs_arch.jpg" alt=""></div></div></div><div class="pno">10</div></section>
 <section class="slide t-shotText" id="p11" data-label="11"><div class="inner"><div class="kicker">決定 1</div><h2 class="title"><span>免登入：打開網頁就能用</span></h2><div class="st"><div class="st-img"><img src="assets/shots/zs_arch.jpg" alt=""></div><div class="st-text"><p><b>為什麼</b>：一節課 45 分鐘，不能花 10 分鐘在登入</p><p><b>怎麼做</b>：Chromebook 打開網頁就用；對戰掃 QR Code 加入</p><p><b>放棄了什麼</b>：系統不知道誰是誰，沒有個人學習紀錄</p><p><b>怎麼補</b>：作品要投稿、老師通過才上作品牆；個人化的練習留給酷AI</p></div></div><div class="rel"><span class="tag">對應</span><span>學生是主體——把時間還給學生動手</span></div></div><div class="pno">11</div></section>
 <section class="slide t-cards" id="p12" data-label="12"><div class="inner"><div class="kicker">決定 2</div><h2 class="title"><span>AI 放在學校裡，不放雲端</span></h2><div class="cards c3"><div class="card"><h3>為什麼</h3><p>學生的題目、照片、作品都留在校園網路裡<br>不用擔心額度用完<br>學生看得到「AI 是一台機器」</p></div><div class="card"><h3>放棄了什麼</h3><p>在校外連不到<br>模型比雲端的小<br>同時太多人用要排隊</p></div><div class="card"><h3>意外的教學點</h3><p>「為什麼要排隊？」<br>「為什麼它比 ChatGPT 笨？」<br>學生開始問算力的問題</p></div></div><div class="rel"><span class="tag">對應</span><span>創新、有效——限制本身變成教材</span></div></div><div class="pno">12</div></section>
 <section class="slide t-shot" id="p13" data-label="13"><div class="inner"><div class="kicker">決定 3</div><h2 class="title"><span>讓算力被看見：算力看板</span></h2><div class="shot"><img src="assets/shots/zs_stats.jpg" alt=""></div><div class="rel"><span class="tag">對應</span><span>有效——抽象的東西要看得見</span></div><p class="foot">學生按下「開始」，大螢幕上的 GPU 曲線就衝上去——AI 不是魔法，是有人在算</p></div><div class="pno">13</div></section>
@@ -232,7 +232,7 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 <section class="slide t-table" id="p20" data-label="20"><div class="inner"><div class="kicker">老師帶著我們改</div><h2 class="title"><span>系統不是設計出來的，是改出來的</span></h2><table class="tbl compact"><thead><tr><th>原本</th><th>老師、學生用了之後</th><th>改成</th></tr></thead><tbody><tr><td>錯題對戰：我判斷「不太需要」</td><td>到校隔天，主任說最喜歡這個</td><td>加音效、血條、類似題</td></tr><tr><td>框一題出 10 道類似題</td><td>老師：太多，5 題就好</td><td>改回 5 題</td></tr><tr><td>看板只有數字</td><td>看不出東西在動</td><td>加 GPU 即時曲線</td></tr><tr><td>學生講稿＝功能介紹</td><td>不像在學 AI</td><td>改成原理版＋補充知識</td></tr><tr><td>可以現場拍照</td><td>校內網址開不了鏡頭</td><td>只留上傳照片</td></tr></tbody></table><div class="rel"><span class="tag">對應</span><span>自發、協同、精進——這就是社群在運作</span></div></div><div class="pno">20</div></section>
 <section class="slide t-divider" id="p21" data-label="21"><div class="inner"><div class="divider"><div class="dv-text"><div class="kicker big">03｜換大家想</div>
 <h2 class="dv-title">這樣的 AI 教室，該怎麼教？</h2><div class="dv-sub">LINE 發想 → AI 整理 → 帶回去</div></div>
-<div class="dv-ill"><img class="ill" style="border-radius:24px;box-shadow:0 12px 40px rgba(30,58,110,.18)" src="assets/shots/zs_train.jpg" alt=""></div></div></div><div class="pno">21</div></section>
+<div class="dv-ill"><img class="ill" style="height:auto;border-radius:24px;box-shadow:0 12px 40px rgba(30,58,110,.18)" src="assets/shots/zs_train.jpg" alt=""></div></div></div><div class="pno">21</div></section>
 <section class="slide t-bullets" id="p22" data-label="22"><div class="inner"><div class="kicker">發想｜5 分鐘</div><h2 class="title"><span>像中山國中這樣的 AI 教室，該進行怎麼樣的教學？</span></h2><ul class="bul"><li class=""><b>一則一個點子，越短越好</b></li><li class="">可以想：哪個年級、哪個領域、學生動手做什麼</li><li class="">可以用剛剛看到的功能，也可以是教室裡還沒有的</li><li class="">先求多、不批評；看到好點子接著補</li></ul><p class="foot">擴散階段先求多，等一下交給 AI 分類收斂</p></div><div class="pno">22</div></section>
 <section class="slide t-steps" id="p23" data-label="23"><div class="inner"><div class="kicker">⚠️ 要用電腦版 LINE 才能匯出</div><h2 class="title"><span>把 LINE 討論匯出成 txt</span></h2><ol class="steps"><li><span class="num">1</span><span>用 LINE 電腦版打開群組 → 右上角「⋮」</span></li><li><span class="num">2</span><span>選「儲存聊天」</span></li><li><span class="num">3</span><span>存成 .txt</span></li><li><span class="num">4</span><span>丟給 Gemini，開啟 Canvas</span></li></ol><p class="foot">手機版不一定有「儲存聊天」，用電腦版最穩</p></div><div class="pno">23</div></section>
 <section class="slide t-prompt" id="p24" data-label="24"><div class="inner"><div class="kicker">Canvas 提示詞（可複製）</div><h2 class="title"><span>LINE 討論 → 教學發想儀表板</span></h2><div class="prompt code mid"><button class="copy">複製</button><pre>附件是一群國小老師在 LINE 上的發想紀錄（txt），題目是「像中山國中這樣的 AI 教室，可以進行怎麼樣的教學」。
