@@ -58,8 +58,8 @@ def render(d):
         return f'''<div class="cover">{ill("cover_bg")}
 <div class="cover-text">
 <div class="org">活化教學與多元學習計畫 參訪｜中山國中 酷AI 智匯教室</div>
-<h1>為什麼<mark>長這樣？</mark></h1>
-<div class="hand">中山國中 AI 算力中心的 8 個設計決定</div>
+<h1><mark>不上雲端</mark>的 AI</h1>
+<div class="hand">活化教學的另一種想像</div>
 <div class="meta">2026.12.10（四）　臺北市立中山國中</div>
 <div class="who"><span>臺北市數位學習中心 <b>周凡淇</b></span></div>
 </div></div>'''
