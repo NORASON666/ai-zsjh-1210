@@ -51,7 +51,7 @@ S = [
       notes="【講稿】開始之前請大家先加入今天的 LINE 群組。\n我會講這間教室為什麼這樣設計，但「它該怎麼用來教學」這一題，各位比我有經驗。聽的時候有想法就先丟進群組，最後我們一起整理。\n【行前準備】建立 LINE 群組、把 QR Code 圖檔給我換進這一頁。"),
 
  # ---------- 01 起點（6 分） ----------
- dict(t="divider", kicker="01｜起點", title="兩週、兩台電腦\n一間教室", sub="先有教室，才開始想系統", img="zs_home.jpg",
+ dict(t="divider", kicker="01｜起點", title="兩週做出\n一間 AI 教室", sub="先有教室，才開始想系統", img="zs_home.jpg",
       notes="【講稿】第一段，先講這間教室怎麼來的。"),
  dict(t="stats", kicker="這間教室有什麼", title="酷AI 智匯教室", stats=[
       ("2 台", "ASUS Ascent GX10", "桌上型 AI 電腦，放在校內"),
