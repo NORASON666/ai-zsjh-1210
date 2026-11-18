@@ -194,6 +194,10 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 #timesUp.open{display:flex}
 @keyframes flash{0%,100%{opacity:1}50%{opacity:.55}}
 @media print{#timerPanel,#timerBadge,#edgeGlow,#timesUp{display:none!important}#bar,#panel,#prog,.supbtn{display:none}}
+.slide .inner img:not([src*="cover_bg"]){cursor:zoom-in}
+#zoom{position:fixed;inset:0;z-index:9999;background:rgba(10,20,45,.92);display:none;align-items:center;justify-content:center;cursor:zoom-out}
+#zoom.on{display:flex}
+#zoom img{max-width:96vw;max-height:96vh;object-fit:contain;border-radius:10px;background:#fff;box-shadow:0 10px 60px rgba(0,0,0,.5)}
 </style>
 </head>
 <body>
@@ -282,6 +286,16 @@ bTimer.onclick=()=>tp.classList.toggle('open');
 tp.addEventListener('keydown',e=>e.stopPropagation());
 addEventListener('resize',fit);fit();
 const m=decodeURIComponent(location.hash).match(/^#p(.+)$/);const k0=m?slides.findIndex(s=>s.dataset.label===m[1]):0;show(k0<0?0:k0);
+</script>
+<div id="zoom"><img alt=""></div>
+<script>
+// 圖片點一下放大；再點一下或按 Esc 關閉
+(function(){const z=document.getElementById('zoom'),zi=z.querySelector('img');
+document.addEventListener('click',e=>{const t=e.target;
+  if(z.classList.contains('on')){z.classList.remove('on');return;}
+  if(t.tagName==='IMG'&&t.closest('.slide .inner')&&!/cover_bg/.test(t.src)){zi.src=t.src;z.classList.add('on');}});
+addEventListener('keydown',e=>{if(z.classList.contains('on')){e.stopImmediatePropagation();e.preventDefault();z.classList.remove('on');}},true);
+})();
 </script>
 </body>
 </html>

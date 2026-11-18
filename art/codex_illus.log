@@ -1,0 +1,828 @@
+Reading prompt from stdin...
+OpenAI Codex v0.167.0
+--------
+workdir: /Volumes/WD2T/Projects/ai-zsjh-1210/art
+model: gpt-6.1-terra
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a1eee0-c9b4-7b02-a8dd-9748f20f1f36
+--------
+user
+請用你的圖片生成工具，畫 8 張簡報插圖，存成 PNG 放在目前資料夾（檔名照下面）。
+共同畫風：完全比照附圖 style_ref.png——白色或極淺米白紙底、細藍墨線手繪、水彩淡彩；主色藏青與天藍，點綴橘黃水彩筆刷；乾淨、留白多，帶一點科技感（細電路線、小螢幕、資料點）。人物是臺灣國小、國中的老師與學生。
+「地端 AI 小主機」的統一造型：一台放在桌上的銀灰色小方盒電腦（約一個便當盒大小，正面有一顆藍色小燈），旁邊可以畫一隻白藍色圓頭小機器人代表它裡面的 AI（小小一隻）。「雲端 AI」的統一造型：遠方雲朵上的一大排高大機房機櫃，以及一隻很大的機器人。
+除特別註明的短標籤外不要有任何文字；有文字必須是正確繁體中文，不可亂碼或簡體字。不要出現任何商標或真實產品 logo。全部 16:9 橫式、2048x1152 以上（第 1 張除外）。
+
+1. sec_local.png（4:3）：章節插圖。一間教室的角落桌上放著兩台銀灰色小方盒電腦，藍燈亮著；幾位老師圍在旁邊好奇地看，頭上有問號和燈泡。窗外天空有一朵雲，但沒有任何線連到雲。不要字。
+2. cloud_vs_local.png：左右對照。左半：教室裡學生的平板發出一條長長的虛線，穿過城市、飛到遠方雲朵上的一大排機房，答案再沿虛線飛回來。右半：教室裡學生的平板發出一條很短的線，只連到教室角落桌上的小方盒電腦。左下短標籤「雲端 AI」，右下短標籤「地端 AI」，文字必須完全一致。
+3. big_vs_small.png：左右對照。左：一隻非常高大的機器人，背後是高到天花板的大書架、滿滿的書。右：一隻很小的白藍色圓頭機器人站在小方盒電腦上，背後只有一個小書櫃、幾本書，它抓抓頭、頭上有一個小問號，但表情很努力。不要字。
+4. data_stays.png：俯視一所學校，校園外圍有一圈矮圍牆，校門上有一個小鎖。圍牆內：學生的考卷、照片、畫作（只畫線條與小圖，不寫字）沿著箭頭流向校內的小方盒電腦，再回到學生手上。圍牆外的雲朵旁邊有一個「禁止通行」的小叉叉，沒有任何箭頭穿出圍牆。不要字。
+5. queue.png：教室裡，五六個學生拿著平板排成一列，隊伍前方是桌上的小方盒電腦，白藍色小機器人滿頭大汗在處理；旁邊大螢幕上有一條往上衝的曲線。排在後面的學生看著螢幕在等。不要字。
+6. try_again.png：左右對照。左：雲朵機房前有一台投幣機和一個快見底的額度量表，學生拿著空空的錢包。右：小方盒電腦接著牆上的插座，學生開心地一張接一張把紙丟給小機器人，旁邊堆了很多試過的作品，其中幾張打叉、幾張打勾。不要字。
+7. teach_it.png：學生們打開小方盒電腦的上蓋，把自己寫的紙條、拍的照片（只畫線條與小圖）倒進去；旁邊三格連續小圖顯示白藍色小機器人從很小、變大一點、再變大一點，胸前的小燈越來越亮。老師在旁邊拿著檢查板確認。不要字。
+8. three_lenses.png：三張並排的水彩卡片，每張下方有短標籤，文字必須完全一致：
+   ①一個上鎖的資料夾，裡面是考卷和照片 →「不能出校的資料」
+   ②一疊畫了很多叉叉和勾勾的草稿紙 →「可以一直試」
+   ③一個被打開的小方盒電腦，看得到裡面的齒輪與發光線路 →「看得見怎麼運作」
+
+全部畫完後，列出檔名與尺寸，並逐張檢查：標籤文字是否完全正確、沒有標籤的圖是否真的沒有任何文字，不對就重畫。
+
+hook: SessionStart
+hook: SessionStart Completed
+hook: UserPromptSubmit
+hook: UserPromptSubmit
+hook: UserPromptSubmit Completed
+hook: UserPromptSubmit Completed
+codex
+我會使用 imagegen 依照參考圖繪製，完成後逐張檢查文字與尺寸；有標籤的兩張會特別核對繁體中文。
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc 'cat /Users/nora/.codex/skills/.system/imagegen/SKILL.md' in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+---
+name: "imagegen"
+description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+---
+
+# Image Generation Skill
+
+Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+
+## Top-level modes and rules
+
+This skill has exactly two top-level modes:
+
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for image generation, editing, and transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for or confirms the CLI/API/model path. Requires `OPENAI_API_KEY`.
+
+Within CLI fallback, the CLI exposes three subcommands:
+
+- `generate`
+- `edit`
+- `generate-batch`
+
+Rules:
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- For transparent images, ask built-in `image_gen` for a transparent background and preserve the generated alpha.
+- Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`; ask the user first unless they explicitly requested `gpt-image-1.5`.
+- The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
+- If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
+- If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+
+Built-in save-path policy:
+- In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
+- Do not describe or rely on OS temp as the default built-in destination.
+- Do not describe or rely on a destination-path argument (if any) on the built-in `image_gen` tool. If a specific location is needed, generate first and then move or copy the selected output from `$CODEX_HOME/generated_images/...`.
+- Save-path precedence in built-in mode:
+  1. If the user names a destination, move or copy the selected output there.
+  2. If the image is meant for the current project, move or copy the final selected image into the workspace before finishing.
+  3. If the image is only for preview or brainstorming, render it inline; the underlying file can remain at the default `$CODEX_HOME/*` path.
+- Never leave a project-referenced asset only at the default `$CODEX_HOME/*` path.
+- Do not overwrite an existing asset unless the user explicitly asked for replacement; otherwise create a sibling versioned filename such as `hero-v2.png` or `item-icon-edited.png`.
+
+Shared prompt guidance for both modes lives in `references/prompting.md` and `references/sample-prompts.md`.
+
+Fallback-only docs/resources for CLI mode:
+- `references/cli.md`
+- `references/image-api.md`
+- `references/codex-network.md`
+- `scripts/image_gen.py`
+
+## When to use
+- Generate a new image (concept art, product shot, cover, website hero)
+- Generate a new image using one or more reference images for style, composition, or mood
+- Edit an existing image (inpainting, lighting or weather transformations, background replacement, object removal, compositing, transparent background)
+- Produce many assets or variants for one task
+
+## When not to use
+- Extending or matching an existing SVG/vector icon set, logo system, or illustration library inside the repo
+- Creating simple shapes, diagrams, wireframes, or icons that are better produced directly in SVG, HTML/CSS, or canvas
+- Making a small project-local asset edit when the source file already exists in an editable native format
+- Any task where the user clearly wants deterministic code-native output instead of a generated bitmap
+
+## Decision tree
+
+Think about two separate questions:
+
+1. **Intent:** is this a new image or an edit of an existing image?
+2. **Execution strategy:** is this one asset or many assets/variants?
+
+Intent:
+- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
+- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
+- If the user provides no images, treat the request as **generate**.
+
+Built-in edit semantics:
+- Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
+- If the user wants to edit a local image file with the built-in tool, first load it with built-in `view_image` tool so the image is visible in the conversation context, then proceed with the built-in edit flow.
+- Do not promise arbitrary filesystem-path editing through the built-in tool.
+- If a local file still needs direct file-path control, masks, or other explicit CLI-only parameters, use the explicit CLI fallback only when the user asks for it.
+- For edits, preserve invariants aggressively and save non-destructively by default.
+
+Execution strategy:
+- In the built-in default path, produce many assets or variants by issuing one `image_gen` call per requested asset or variant.
+- In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
+- For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
+
+Assume the user wants a new image unless they clearly ask to change an existing one.
+
+## Workflow
+1. Decide the top-level mode: built-in by default, including transparent-output requests; fallback CLI only if explicitly requested or confirmed.
+2. Decide the intent: `generate` or `edit`.
+3. Decide whether the output is preview-only or meant to be consumed by the current project.
+4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
+5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+6. For every input image, label its role explicitly:
+   - reference image
+   - edit target
+   - supporting insert/style/compositing input
+7. If the edit target is only on the local filesystem and you are staying on the built-in path, inspect it with `view_image` first so the image is available in conversation context.
+8. If the user asked for a photo, illustration, sprite, product image, banner, or other explicitly raster-style asset, use `image_gen` rather than substituting SVG/HTML/CSS placeholders. If the request is for an icon, logo, or UI graphic that should match existing repo-native SVG/vector/code assets, prefer editing those directly instead.
+9. Augment the prompt based on specificity:
+   - If the user's prompt is already specific and detailed, normalize it into a clear spec without adding creative requirements.
+   - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
+10. Use the built-in `image_gen` tool by default.
+11. For transparent-output requests, ask built-in `image_gen` for a transparent background and preserve the generated alpha channel.
+12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
+13. Iterate with a single targeted change, then re-check.
+14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
+15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
+16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
+17. If the user explicitly chooses or confirms the CLI fallback, then use the fallback-only docs for model, quality, size, `input_fidelity`, masks, output format, output paths, and network setup.
+18. Always report the final saved path(s) for any workspace-bound asset(s), plus the final prompt or prompt set and whether the built-in tool or fallback CLI mode was used.
+
+## Transparent image requests
+
+Ask built-in `image_gen` for a genuinely transparent background and preserve its alpha.
+
+## Prompt augmentation
+
+Reformat user prompts into a structured, production-oriented spec. Make the user's goal clearer and more actionable, but do not blindly add detail.
+
+Treat this as prompt-shaping guidance, not a closed schema. Use only the lines that help, and add a short extra labeled line when it materially improves clarity.
+
+### Specificity policy
+
+Use the user's prompt specificity to decide how much augmentation is appropriate:
+
+- If the prompt is already specific and detailed, preserve that specificity and only normalize/structure it.
+- If the prompt is generic, you may add tasteful augmentation when it will materially improve the result.
+
+Allowed augmentations:
+- composition or framing hints
+- polish level or intended-use hints
+- practical layout guidance
+- reasonable scene concreteness that supports the stated request
+
+Not allowed augmentations:
+- extra characters or objects that are not implied by the request
+- brand names, slogans, palettes, or narrative beats that are not implied
+- arbitrary side-specific placement unless the surrounding layout supports it
+
+## Use-case taxonomy (exact slugs)
+
+Classify each request into one of these buckets and keep the slug consistent across prompts and references.
+
+Generate:
+- photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
+- product-mockup — product/packaging shots, catalog imagery, merch concepts.
+- ui-mockup — app/web interface mockups and wireframes; specify the desired fidelity.
+- infographic-diagram — diagrams/infographics with structured layout and text.
+- scientific-educational — classroom explainers, scientific diagrams, and learning visuals with required labels and accuracy constraints.
+- ads-marketing — campaign concepts and ad creatives with audience, brand position, scene, and exact tagline/copy.
+- productivity-visual — slide, chart, workflow, and data-heavy business visuals.
+- logo-brand — logo/mark exploration, vector-friendly.
+- illustration-story — comics, children’s book art, narrative scenes.
+- stylized-concept — style-driven concept art, 3D/stylized renders.
+- historical-scene — period-accurate/world-knowledge scenes.
+
+Edit:
+- text-localization — translate/replace in-image text, preserve layout.
+- identity-preserve — try-on, person-in-scene; lock face/body/pose.
+- precise-object-edit — remove/replace a specific element (including interior swaps).
+- lighting-weather — time-of-day/season/atmosphere changes only.
+- background-extraction — transparent background / clean cutout. Ask built-in `image_gen` for actual transparency.
+- style-transfer — apply reference style while changing subject/scene.
+- compositing — multi-image insert/merge with matched lighting/perspective.
+- sketch-to-render — drawing/line art to photoreal render.
+
+## Shared prompt schema
+
+Use the following labeled spec as shared prompt scaffolding for both top-level modes:
+
+```text
+Use case: <taxonomy slug>
+Asset type: <where the asset will be used>
+Primary request: <user's main prompt>
+Input images: <Image 1: role; Image 2: role> (optional)
+Scene/backdrop: <environment>
+Subject: <main subject>
+Style/medium: <photo/illustration/3D/etc>
+Composition/framing: <wide/close/top-down; placement>
+Lighting/mood: <lighting + mood>
+Color palette: <palette notes>
+Materials/textures: <surface details>
+Text (verbatim): "<exact text>"
+Constraints: <must keep/must avoid>
+Avoid: <negative constraints>
+```
+
+Notes:
+- `Asset type` and `Input images` are prompt scaffolding, not dedicated CLI flags.
+- `Scene/backdrop` refers to the visual setting. It is not the same as the fallback CLI `background` parameter, which controls output transparency behavior.
+- Fallback-only execution notes such as `Quality:`, `Input fidelity:`, masks, output format, and output paths belong in the CLI path only. Do not treat them as built-in `image_gen` tool arguments.
+
+Augmentation rules:
+- Keep it short.
+- Add only the details needed to improve the prompt materially.
+- For edits, explicitly list invariants (`change only X; keep Y unchanged`).
+- If any critical detail is missing and blocks success, ask a question; otherwise proceed.
+
+## Examples
+
+### Generation example (hero image)
+```text
+Use case: product-mockup
+Asset type: landing page hero
+Primary request: a minimal hero image of a ceramic coffee mug
+Style/medium: clean product photography
+Composition/framing: wide composition with usable negative space for page copy if needed
+Lighting/mood: soft studio lighting
+Constraints: no logos, no text, no watermark
+```
+
+### Edit example (invariants)
+```text
+Use case: precise-object-edit
+Asset type: product photo background replacement
+Primary request: replace only the background with a warm sunset gradient
+Constraints: change only the background; keep the product and its edges unchanged; no text; no watermark
+```
+
+## Prompting best practices
+- Structure prompt as scene/backdrop -> subject -> details -> constraints.
+- Include intended use (ad, UI mock, infographic) to set the mode and polish level.
+- Use camera/composition language for photorealism.
+- Only use SVG/vector stand-ins when the user explicitly asked for vector output or a non-image placeholder.
+- Quote exact text and specify typography + placement.
+- For tricky words, spell them letter-by-letter and require verbatim rendering.
+- For multi-image inputs, reference images by index and describe how they should be used.
+- For edits, repeat invariants every iteration to reduce drift.
+- Iterate with single-change follow-ups.
+- If the prompt is generic, add only the extra detail that will materially help.
+- If the prompt is already detailed, normalize it instead of expanding it.
+- For CLI fallback only, see `references/cli.md` and `references/image-api.md` for model, `quality`, `input_fidelity`, masks, output format, and output-path guidance.
+- For transparent images, ask built-in `image_gen` for actual transparency and preserve its alpha.
+
+More principles shared by both modes: `references/prompting.md`.
+Copy/paste specs shared by both modes: `references/sample-prompts.md`.
+
+## Guidance by asset type
+Asset-type templates (website assets, game assets, wireframes, logo) are consolidated in `references/sample-prompts.md`.
+
+## gpt-image-2 guidance for CLI fallback
+
+The fallback CLI defaults to `gpt-image-2`.
+
+- Use `gpt-image-2` for new CLI/API workflows unless the user confirms a different model.
+- CLI `gpt-image-2` does not support `background=transparent`; ask before using `gpt-image-1.5` unless the user explicitly requested that model.
+- `gpt-image-2` always uses high fidelity for image inputs; do not set `input_fidelity` with this model.
+- `gpt-image-2` supports `quality` values `low`, `medium`, `high`, and `auto`.
+- Use `quality low` for fast drafts, thumbnails, and quick iterations. Use `medium`, `high`, or `auto` for final assets, dense text, diagrams, identity-sensitive edits, or high-resolution outputs.
+- Square images are typically fastest to generate. Use `1024x1024` for fast square drafts.
+- If the user asks for 4K-style output, use `3840x2160` for landscape or `2160x3840` for portrait.
+- `gpt-image-2` size may be `auto` or `WIDTHxHEIGHT` if all constraints hold: max edge `<= 3840px`, both edges multiples of `16px`, long-to-short ratio `<= 3:1`, total pixels between `655,360` and `8,294,400`.
+
+Popular `gpt-image-2` sizes:
+- `1024x1024` square
+- `1536x1024` landscape
+- `1024x1536` portrait
+- `2048x2048` 2K square
+- `2048x1152` 2K landscape
+- `3840x2160` 4K landscape
+- `2160x3840` 4K portrait
+- `auto`
+
+## Fallback CLI mode only
+
+### Temp and output conventions
+These conventions apply only to the CLI fallback. They do not describe built-in `image_gen` output behavior.
+- Use `tmp/imagegen/` for intermediate files (for example JSONL batches); delete them when done.
+- Write final artifacts under `output/imagegen/`.
+- Use `--out` or `--out-dir` to control output paths; keep filenames stable and descriptive.
+
+### Dependencies
+Prefer `uv` for dependency management in this repo.
+
+Required Python package:
+```bash
+uv pip install openai
+```
+
+Optional for image inspection and downscaling:
+```bash
+uv pip install pillow
+```
+
+Portability note:
+- If you are using the installed skill outside this repo, install dependencies into that environment with its package manager.
+- In uv-managed environments, `uv pip install ...` remains the preferred path.
+
+### Environment
+- `OPENAI_API_KEY` must be set for live API calls.
+- Do not ask the user for `OPENAI_API_KEY` when using the built-in `image_gen` tool.
+- Never ask the user to paste the full key in chat. Ask them to set it locally and confirm when ready.
+
+If the key is missing, give the user these steps:
+1. Create an API key in the OpenAI platform UI: https://platform.openai.com/api-keys
+2. Set `OPENAI_API_KEY` as an environment variable in their system.
+3. Offer to guide them through setting the environment variable for their OS/shell if needed.
+
+If installation is not possible in this environment, tell the user which dependency is missing and how to install it into their active environment.
+
+### Script-mode notes
+- CLI commands + examples: `references/cli.md`
+- API parameter quick reference: `references/image-api.md`
+- Network approvals / sandbox settings for CLI mode: `references/codex-network.md`
+
+## Reference map
+- `references/prompting.md`: shared prompting principles for both modes.
+- `references/sample-prompts.md`: shared copy/paste prompt recipes for both modes.
+- `references/cli.md`: fallback-only CLI usage via `scripts/image_gen.py`.
+- `references/image-api.md`: fallback-only API/CLI parameter reference.
+- `references/codex-network.md`: fallback-only network/sandbox troubleshooting for CLI mode.
+- `scripts/image_gen.py`: fallback-only CLI implementation. Use only when the user explicitly chooses or confirms CLI mode.
+
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc 'pwd && ls -l style_ref.png sec_local.png cloud_vs_local.png big_vs_small.png data_stays.png queue.png try_again.png teach_it.png three_lenses.png 2>/dev/null; cat ~/.codex/coding-rules.md' in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+/Volumes/WD2T/Projects/ai-zsjh-1210/art
+-rw-r--r--@ 1 nora  staff  2938230 Nov 18 20:43 style_ref.png
+# 程式碼守則（跨機共用）
+
+> **正典**：GDrive `02Tools/claude-config/coding-rules.md`。各機由「同步 skill」複製到 `~/.claude/` 與 `~/.codex/`。
+> **改規則改正典**，不要改本機複本——下次同步會被蓋掉。
+> 來源：Karpathy 的 LLM coding pitfalls（`multica-ai/andrej-karpathy-skills`，MIT）。原文四條只收兩條，
+> 另兩條（先講假設、定義可驗證的成功條件）我已有更具體的實戰版，不重複佔 context：
+> memory `feedback_adjacent_method_ask_before_write`、`feedback_verification_needs_machine_checkable_output`、
+> `feedback_deploy_verify_over_http`、`feedback_verifier_false_positive_first`。
+
+## 1. 簡潔優先
+
+**用最少的程式碼解決問題，不做沒被要求的事。**
+
+- 不加沒要求的功能、設定項、「未來可能需要」的彈性
+- 只有一個使用處就不要抽象
+- 不為不可能發生的情況寫錯誤處理
+- 200 行能寫成 50 行，就重寫
+
+判準：「資深工程師會不會說這過度設計？」會，就簡化。
+
+## 2. 外科式修改
+
+**只動非動不可的地方；只清自己製造的殘骸。**
+
+- 不順手「改善」隔壁的程式碼、註解、格式
+- 不重構沒壞的東西；風格照現場的來，即使你有別的偏好
+- 看到不相關的死碼 → **回報，不要刪**
+- 只清掉「因為你的修改」而變成孤兒的 import／變數／函式
+
+判準：每一行改動都能直接追溯到使用者的要求。
+
+> 這就是 wiki「鎖定頁不主動覆寫、不優化措辭」在**程式碼領域**的同一條規則。
+> 刪任何東西前要讓人看見完整清單：memory `feedback_destructive_op_show_full_list`。
+
+## 適用範圍
+
+程式碼工作（ailms-web／tpform／PSM／regbot／presents／各式腳本）。
+瑣碎任務用判斷力——這兩條偏向謹慎而非速度，不要讓它變成拖累。
+
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex
+八張插圖已送出生成，會先確認各圖的構圖與文字，再整理成指定檔名。
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex
+目前已有部分圖片生成完成；其餘仍在製作。完成後我會量測實際像素，並逐張核對有無多餘文字。
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc 'ls -lt ~/.codex/generated_images/* 2>/dev/null | head -25' in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 20ms:
+/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36:
+total 15608
+-rw-r--r--@ 1 nora  staff  2437643 Nov 18 21:40 exec-b450de90-4f18-49db-833c-b50d0f9ba519.png
+-rw-r--r--@ 1 nora  staff  2759089 Nov 18 21:39 exec-09fedfb2-09d6-4ab8-a6a7-b93ba93e05da.png
+-rw-r--r--@ 1 nora  staff  2788626 Nov 18 21:39 exec-a1373cc6-3273-4c4f-95ca-5a9e681b7694.png
+
+/Users/nora/.codex/generated_images/01a1e344-bd53-7132-97bb-290f87506be3:
+total 34304
+-rw-r--r--@ 1 nora  staff  2178908 Nov 16 15:39 exec-37723627-d169-48d4-8244-c8ddba3375b3.png
+-rw-r--r--@ 1 nora  staff  2323870 Nov 16 15:38 exec-9ecea832-03c0-409b-9e46-01e665e61e08.png
+-rw-r--r--@ 1 nora  staff  2532545 Nov 16 15:37 exec-a1b3f812-9321-4433-8cef-bf4e9b4e9da7.png
+-rw-r--r--@ 1 nora  staff  2291799 Nov 16 15:36 exec-508a8d7a-5461-4eee-bc18-bbfe612817d4.png
+-rw-r--r--@ 1 nora  staff  2172896 Nov 16 15:35 exec-cb444b0a-b120-48dc-bebb-171f76a93c83.png
+-rw-r--r--@ 1 nora  staff  2353379 Nov 16 15:34 exec-9b916668-aff5-4716-b722-d1c845bc3fb5.png
+-rw-r--r--@ 1 nora  staff  1606027 Nov 16 15:33 exec-9819ca95-12c9-4da0-912b-49776331e87c.png
+-rw-r--r--@ 1 nora  staff  2087379 Nov 16 15:32 exec-e0d9d0e6-0c4d-444a-a31e-51d196f4b0b9.png
+
+/Users/nora/.codex/generated_images/01a1a6b2-e898-7242-851e-8cc2c6c96705:
+total 4448
+-rw-r--r--@ 1 nora  staff  2275855 Nov  5 15:58 exec-826649ea-cd41-4bbd-bba1-52461bc73aed.png
+
+/Users/nora/.codex/generated_images/01a1a9f1-9afe-73c3-bfcc-03c0f4ea6dc4:
+total 8408
+-rw-r--r--@ 1 nora  staff  1899143 Nov  5 12:24 exec-ca5a1806-9cf3-4f32-8bba-99ac6f0b7bbc.png
+-rw-r--r--@ 1 nora  staff  2404293 Nov  5 12:23 exec-9773b55e-d95c-4ef1-a709-25ecbb743ebd.png
+
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+codex
+第一張已看到兩台地端主機與教師討論的畫面，沒有文字；我正在等其餘插圖並檢查輸出規格。
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex
+已完成的圖片正在逐張檢視；生成工具處理這組插圖需要一些時間，我會繼續等剩下的結果。
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex
+目前六張已產生，還有「教會它」與「三個判斷角度」兩張在處理。
+codex
+圖片生成仍在進行；我也會確認工具實際輸出的解析度，避免把未達規格的圖當成已完成。
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+codex
+七張已生成，最後一張含三段繁體中文標籤；完成後會逐字檢查。
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+codex
+檢查發現兩處需要重畫：三張卡片的考卷多了數字，而「教會它」出現了指向雲端的箭頭。我正在修正；其他圖片的指定標籤與無文字要求已核對。
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc "cp '/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36/exec-a1373cc6-3273-4c4f-95ca-5a9e681b7694.png' 'sec_local.png'" in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc "cp '/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36/exec-fc7be1da-eeb3-4b7d-b453-172eb06c9483.png' 'cloud_vs_local.png'" in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc "cp '/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36/exec-09fedfb2-09d6-4ab8-a6a7-b93ba93e05da.png' 'big_vs_small.png'" in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc "cp '/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36/exec-d40e80f7-aec5-4bdc-b736-c7cf63b6da48.png' 'data_stays.png'" in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc "cp '/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36/exec-fa77a299-3285-4406-ae43-0a5cef8f1bfd.png' 'queue.png'" in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc "cp '/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36/exec-b450de90-4f18-49db-833c-b50d0f9ba519.png' 'try_again.png'" in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc 'sips -g pixelWidth -g pixelHeight sec_local.png cloud_vs_local.png big_vs_small.png data_stays.png queue.png try_again.png' in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 45ms:
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/sec_local.png
+  pixelWidth: 1448
+  pixelHeight: 1086
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/cloud_vs_local.png
+  pixelWidth: 1672
+  pixelHeight: 941
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/big_vs_small.png
+  pixelWidth: 1672
+  pixelHeight: 941
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/data_stays.png
+  pixelWidth: 1672
+  pixelHeight: 941
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/queue.png
+  pixelWidth: 1672
+  pixelHeight: 941
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/try_again.png
+  pixelWidth: 1672
+  pixelHeight: 941
+
+hook: PostToolUse
+hook: PostToolUse Completed
+codex
+工具產出的橫幅原圖是 1672 × 941，低於指定的 2048 × 1152；我會將完成圖放大至指定尺寸，並在交付時註明這是放大後的尺寸。
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc "cp '/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36/exec-c20b42a2-1c40-4194-ad55-a44ace8b8d39.png' 'teach_it.png'" in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc "cp '/Users/nora/.codex/generated_images/01a1eee0-c9b4-7b02-a8dd-9748f20f1f36/exec-1476dc25-8be8-4702-9be6-9767afdec384.png' 'three_lenses.png'" in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 0ms:
+hook: PostToolUse
+hook: PostToolUse Completed
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+hook: PreToolUse Completed
+exec
+/bin/zsh -lc 'sips -z 1152 2048 cloud_vs_local.png big_vs_small.png data_stays.png queue.png try_again.png teach_it.png three_lenses.png >/dev/null && sips -g pixelWidth -g pixelHeight sec_local.png cloud_vs_local.png big_vs_small.png data_stays.png queue.png try_again.png teach_it.png three_lenses.png' in /Volumes/WD2T/Projects/ai-zsjh-1210/art
+ succeeded in 1627ms:
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/sec_local.png
+  pixelWidth: 1448
+  pixelHeight: 1086
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/cloud_vs_local.png
+  pixelWidth: 2048
+  pixelHeight: 1152
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/big_vs_small.png
+  pixelWidth: 2048
+  pixelHeight: 1152
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/data_stays.png
+  pixelWidth: 2048
+  pixelHeight: 1152
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/queue.png
+  pixelWidth: 2048
+  pixelHeight: 1152
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/try_again.png
+  pixelWidth: 2048
+  pixelHeight: 1152
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/teach_it.png
+  pixelWidth: 2048
+  pixelHeight: 1152
+/Volumes/WD2T/Projects/ai-zsjh-1210/art/three_lenses.png
+  pixelWidth: 2048
+  pixelHeight: 1152
+
+hook: PostToolUse
+hook: PostToolUse Completed
+codex
+已用圖片生成工具完成 8 張插圖，並存到目前資料夾：
+
+| 檔案 | 尺寸 |
+|---|---:|
+| [sec_local.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/sec_local.png) | 1448 × 1086（4:3） |
+| [cloud_vs_local.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/cloud_vs_local.png) | 2048 × 1152 |
+| [big_vs_small.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/big_vs_small.png) | 2048 × 1152 |
+| [data_stays.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/data_stays.png) | 2048 × 1152 |
+| [queue.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/queue.png) | 2048 × 1152 |
+| [try_again.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/try_again.png) | 2048 × 1152 |
+| [teach_it.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/teach_it.png) | 2048 × 1152 |
+| [three_lenses.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/three_lenses.png) | 2048 × 1152 |
+
+已逐張目視檢查：兩張有標籤的圖均符合指定文字，其餘六張未見文字。三卡圖原本多出的數字，以及「教會它」圖中多出的雲端箭頭，均已修正。
+
+七張橫式圖由工具原始輸出的 **1672 × 941** 放大為 2048 × 1152；最終像素尺寸符合要求，但不是原生 2048 × 1152 生成。
+hook: Stop
+hook: Stop
+hook: Stop Completed
+hook: Stop Completed
+tokens used
+57,096
+已用圖片生成工具完成 8 張插圖，並存到目前資料夾：
+
+| 檔案 | 尺寸 |
+|---|---:|
+| [sec_local.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/sec_local.png) | 1448 × 1086（4:3） |
+| [cloud_vs_local.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/cloud_vs_local.png) | 2048 × 1152 |
+| [big_vs_small.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/big_vs_small.png) | 2048 × 1152 |
+| [data_stays.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/data_stays.png) | 2048 × 1152 |
+| [queue.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/queue.png) | 2048 × 1152 |
+| [try_again.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/try_again.png) | 2048 × 1152 |
+| [teach_it.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/teach_it.png) | 2048 × 1152 |
+| [three_lenses.png](/Volumes/WD2T/Projects/ai-zsjh-1210/art/three_lenses.png) | 2048 × 1152 |
+
+已逐張目視檢查：兩張有標籤的圖均符合指定文字，其餘六張未見文字。三卡圖原本多出的數字，以及「教會它」圖中多出的雲端箭頭，均已修正。
+
+七張橫式圖由工具原始輸出的 **1672 × 941** 放大為 2048 × 1152；最終像素尺寸符合要求，但不是原生 2048 × 1152 生成。
+exit 0
