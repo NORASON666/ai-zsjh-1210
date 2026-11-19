@@ -57,7 +57,7 @@ def render(d):
     if t == "cover":
         return f'''<div class="cover">{ill("cover_bg")}
 <div class="cover-text">
-<div class="org">活化教學與多元學習計畫 參訪｜中山國中 酷AI 智匯教室</div>
+<div class="org">臺北市國民小學活化教學與多元學習工作組 參訪｜中山國中 World Labs AI智匯教室</div>
 <h1><mark>不上雲端</mark>的 AI</h1>
 <div class="hand">活化教學的另一種想像</div>
 <div class="meta">2026.12.10（四）　臺北市立中山國中</div>
