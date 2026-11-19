@@ -26,10 +26,18 @@ html,body{margin:0;height:100%;background:#E9EFF6;color:var(--ink);font-family:"
 .three .slide:not(.t-cover):not(.t-closing):not(.t-divider)::after{display:none}
 @media (prefers-reduced-motion:no-preference){.slide.on .inner{animation:slidein .4s cubic-bezier(.2,.7,.2,1)}}
 /* ── 取自中山平台界面：膠囊標籤、藍紅雙線、底部狀態列（校徽、GPU 即時曲線、儀表式頁碼） */
-.slide:not(.t-cover):not(.t-divider):not(.t-closing) .kicker{align-self:flex-start;font-size:24px;color:#fff;background:#18409a;border-radius:999px;padding:5px 22px 6px;margin-bottom:12px;letter-spacing:.08em}
-.slide:not(.t-cover):not(.t-divider):not(.t-closing) .kicker::before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;background:#f2a516;margin-right:12px;vertical-align:2px}
-.zs .slide:not(.t-cover):not(.t-divider):not(.t-closing)::before{height:6px;background:linear-gradient(#18409a 0 4px,#d7191c 4px)}
-.zs .slide:not(.t-cover):not(.t-divider):not(.t-closing) .pno{display:none}
+.slide .kicker{align-self:flex-start;width:fit-content;font-size:24px;color:#fff;background:#18409a;border-radius:999px;padding:5px 22px 6px;margin-bottom:12px;letter-spacing:.08em}
+.slide .kicker::before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;background:#f2a516;margin-right:12px;vertical-align:2px}
+.zs .slide::before{height:6px;background:linear-gradient(#18409a 0 4px,#d7191c 4px)}
+.zs .slide:not(.t-cover):not(.t-closing) .pno{display:none}
+.slide .kicker.big{font-size:32px;padding:8px 30px 9px;margin-bottom:22px}
+.zslock{position:absolute;left:48px;top:30px;display:flex;align-items:center;gap:10px;font:900 20px "Noto Sans TC",sans-serif;color:#18409a;z-index:2}
+.zslock img{height:42px}.zslock i{font-style:normal;color:#56637d;font-weight:500}
+.zslock .chip{display:flex;align-items:center;background:linear-gradient(90deg,#17b3b5,#6fd4c6);border-radius:10px;padding:7px 12px}.zslock .chip img{height:20px}
+.zsstat{display:inline-flex;align-items:center;gap:12px;margin-top:26px;font:500 26px "Noto Sans TC",sans-serif;color:#13203a;background:#fff;border:2px solid #d9e1ee;border-radius:999px;padding:8px 26px}
+.zsstat::before{content:"";width:14px;height:14px;border-radius:50%;background:#1f9d55;box-shadow:0 0 0 5px rgba(31,157,85,.18)}
+@media (prefers-reduced-motion:no-preference){.zsstat::before{animation:zsp 1.8s ease-in-out infinite}}
+@keyframes zsp{50%{box-shadow:0 0 0 10px rgba(31,157,85,0)}}
 #zsbar{position:absolute;left:36px;right:28px;bottom:10px;height:34px;display:flex;align-items:center;gap:12px;font:700 18px "Noto Sans TC",sans-serif;color:#18409a;pointer-events:none}
 #zsbar img{height:32px}
 #zsbar .lg{display:flex;align-items:center;gap:6px;font-size:15px;color:#56637d;margin-left:14px}
@@ -389,6 +397,9 @@ requestAnimationFrame(frame);})();
 const bar=document.createElement('div');bar.id='zsbar';
 bar.innerHTML='<img src="assets/shots/zs_emblem.png" alt=""><span>中山國中 AI 算力中心</span><span class="lg"><i></i>GX10-A<i class="b"></i>GX10-B</span><canvas></canvas>'+
  '<svg viewBox="0 0 120 74"><path class="trk" d="M10 64 A50 50 0 0 1 110 64"/><path class="val" d="M10 64 A50 50 0 0 1 110 64" stroke-dasharray="157.08" stroke-dashoffset="157.08"/><text class="num" x="60" y="56" text-anchor="middle"></text><text class="unit" x="60" y="71" text-anchor="middle"></text></svg>';
+document.querySelectorAll('.slide.t-cover,.slide.t-divider,.slide.t-closing').forEach(sl=>{const d=document.createElement('div');d.className='zslock';
+  d.innerHTML='<img src="assets/shots/zs_emblem.png" alt="">臺北市立中山國民中學<i>×</i><span class="chip"><img src="assets/shots/zs_coolai.png" alt="酷AI系統"></span>';sl.appendChild(d);
+  const ct=sl.querySelector('.cover-text');if(ct){const p=document.createElement('div');p.innerHTML='<span class="zsstat">校內 AI 運作中：<b>GX10-A</b>・<b>GX10-B</b></span>';ct.appendChild(p);}});
 const cv=bar.querySelector('canvas'),g=cv.getContext('2d'),val=bar.querySelector('.val'),num=bar.querySelector('.num'),unit=bar.querySelector('.unit');
 const all=[...document.querySelectorAll('.slide')],main=all.filter(s=>/^\d+$/.test(s.dataset.label)).length;
 const N=140,A=Array(N).fill(4),B=Array(N).fill(3);let host=null,a=4,b=3,ta=4,tb=3,last=0;
@@ -398,7 +409,7 @@ function draw(){const W=cv.width=cv.clientWidth*2,H=cv.height=cv.clientHeight*2;
   [[B,'#76b900'],[A,'#18409a']].forEach(([d,c])=>{g.strokeStyle=c;g.lineWidth=4;g.lineJoin='round';g.beginPath();
     d.forEach((v,i)=>{const x=i/(N-1)*W,y=H-4-v/100*(H-10);i?g.lineTo(x,y):g.moveTo(x,y);});g.stroke();});}
 function tick(t){requestAnimationFrame(tick);
-  const on=document.querySelector('.slide.on'),ok=on&&!/t-(cover|divider|closing)/.test(on.className);
+  const on=document.querySelector('.slide.on'),ok=on&&!/t-(cover|closing)/.test(on.className);
   if(on!==host){host=on;if(ok){on.appendChild(bar);const lab=on.dataset.label,n=parseInt(lab);
       num.textContent=lab;unit.textContent=isNaN(n)?'備用':'／ '+main;val.style.strokeDashoffset=157.08*(1-(isNaN(n)?1:n/main));}else bar.remove();
     ta=55+Math.random()*40;setTimeout(()=>tb=40+Math.random()*35,500);}
