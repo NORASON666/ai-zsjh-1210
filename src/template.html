@@ -25,6 +25,21 @@ html,body{margin:0;height:100%;background:#E9EFF6;color:var(--ink);font-family:"
 .inner{position:absolute;inset:70px 120px 70px 120px;display:flex;flex-direction:column}
 .three .slide:not(.t-cover):not(.t-closing):not(.t-divider)::after{display:none}
 @media (prefers-reduced-motion:no-preference){.slide.on .inner{animation:slidein .4s cubic-bezier(.2,.7,.2,1)}}
+/* ── 取自中山平台界面：膠囊標籤、藍紅雙線、底部狀態列（校徽、GPU 即時曲線、儀表式頁碼） */
+.slide:not(.t-cover):not(.t-divider):not(.t-closing) .kicker{align-self:flex-start;font-size:24px;color:#fff;background:#18409a;border-radius:999px;padding:5px 22px 6px;margin-bottom:12px;letter-spacing:.08em}
+.slide:not(.t-cover):not(.t-divider):not(.t-closing) .kicker::before{content:"";display:inline-block;width:12px;height:12px;border-radius:50%;background:#f2a516;margin-right:12px;vertical-align:2px}
+.zs .slide:not(.t-cover):not(.t-divider):not(.t-closing)::before{height:6px;background:linear-gradient(#18409a 0 4px,#d7191c 4px)}
+.zs .slide:not(.t-cover):not(.t-divider):not(.t-closing) .pno{display:none}
+#zsbar{position:absolute;left:36px;right:28px;bottom:10px;height:34px;display:flex;align-items:center;gap:12px;font:700 18px "Noto Sans TC",sans-serif;color:#18409a;pointer-events:none}
+#zsbar img{height:32px}
+#zsbar .lg{display:flex;align-items:center;gap:6px;font-size:15px;color:#56637d;margin-left:14px}
+#zsbar .lg i{width:22px;height:4px;border-radius:2px;background:#18409a}#zsbar .lg i.b{background:#76b900;margin-left:10px}
+#zsbar canvas{flex:1;height:34px;min-width:0}
+#zsbar svg{width:118px;height:74px;align-self:flex-end;margin-bottom:-4px}
+#zsbar .trk{fill:none;stroke:#d3dcec;stroke-width:12;stroke-linecap:round}
+#zsbar .val{fill:none;stroke:#18409a;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+#zsbar .num{font-size:30px;font-weight:800;fill:#13203a}#zsbar .unit{font-size:13px;fill:#56637d;font-weight:500}
+@media print{#zsbar{display:none}}
 @keyframes slidein{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .pno{position:absolute;right:40px;bottom:30px;font:600 30px Caveat,cursive;color:var(--blue)}
 .kicker{font:700 30px "Noto Sans TC",sans-serif;color:var(--blue);letter-spacing:.06em;margin-bottom:6px}
@@ -333,18 +348,26 @@ const E=[];P.forEach((a,i)=>{P.map((b,j)=>[a.distanceTo(b),j]).sort((u,v)=>u[0]-
 net.lines(E.flat(),0x6FA8DC,.6);net.dots(P,0x3D7DC8,16,.75);
 const netPulse=pulses(net,E,22,0xF2994A,20);
 
-// ── 2. 兩台主機＋圍一圈的 Chromebook（右上角）
-const hub=layer();hub.position.set(499,276,0);hub.rotation.x=.42;hub.scale.setScalar(1.3);
-const fill=hub.mat(new THREE.MeshBasicMaterial({color:0xC4DCF6}),1),edge=hub.mat(new THREE.LineBasicMaterial({color:0x1F3A6E}),1);
-const box=new THREE.BoxGeometry(30,28,30),leds=[],hubs=[];
-[-19,19].forEach(dx=>{const m=new THREE.Mesh(box,fill);m.position.x=dx;hub.add(m);
-  const e=new THREE.LineSegments(new THREE.EdgesGeometry(box),edge);e.position.x=dx;hub.add(e);
-  const gr=[];for(let i=0;i<4;i++){const y=-8+i*4;gr.push(V(dx-9,y,15.2),V(dx+1,y,15.2));}hub.lines(gr,0x1F3A6E,.8);
-  leds.push(V(dx+9,-8,15.4));hubs.push(V(dx,0,0));});
-const led=hub.dots(leds,0xF2A516,12,1);
-const lap=[],HE=[];for(let i=0;i<7;i++){const t=i/7*Math.PI*2+.3,p=V(Math.cos(t)*70,-14,Math.sin(t)*60);lap.push(p);HE.push([p,hubs[i%2]]);}
-hub.lines(HE.flat(),0x6FA8DC,.55);hub.dots(lap,0x3D7DC8,16,1);
-const hubPulse=pulses(hub,HE,6,0xF2994A,12);
+// ── 2. 兩台 GX10 主機＋前面一排 Chromebook（內容頁右上角；外觀比照插圖：銀色方盒、散熱孔、藍色燈號）
+const hub=layer();hub.position.set(467,278,0);hub.rotation.x=.5;
+const M=c=>hub.mat(new THREE.MeshBasicMaterial({color:c}),1);
+const side=M(0xB4CAE6),top=M(0xF1F6FC),front=M(0xD3E2F4),edge=hub.mat(new THREE.LineBasicMaterial({color:0x1F3A6E}),1);
+const solid=(geo,mats,x,y,z,rx)=>{const m=new THREE.Mesh(geo,mats);m.position.set(x,y,z);if(rx)m.rotation.x=rx;hub.add(m);
+  const e=new THREE.LineSegments(new THREE.EdgesGeometry(geo),edge);e.position.copy(m.position);e.rotation.copy(m.rotation);hub.add(e);return m;};
+const label=(txt,x,y,z)=>{const c=document.createElement('canvas');c.width=256;c.height=64;const g=c.getContext('2d');
+  g.font='900 44px "Noto Sans TC",sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillStyle='#18409a';g.fillText(txt,128,34);
+  const sp=new THREE.Sprite(hub.mat(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c)}),1));sp.position.set(x,y,z);sp.scale.set(52,13,1);hub.add(sp);};
+const body=new THREE.BoxGeometry(48,24,48),leds=[],det=[],ports=[];
+[[-30,'GX10-A'],[30,'GX10-B']].forEach(([dx,name])=>{solid(body,[side,side,top,side,front,side],dx,0,0);
+  for(let i=0;i<5;i++){const y=-7+i*3.4;det.push(V(dx-19,y,24.3),V(dx-1,y,24.3));}          // 散熱孔
+  [[-17,-17,17,-17],[17,-17,17,17],[17,17,-17,17],[-17,17,-17,-17]].forEach(q=>det.push(V(dx+q[0],12.2,q[1]),V(dx+q[2],12.2,q[3]))); // 上蓋
+  leds.push(V(dx+15,-7,24.5));ports.push(V(dx,-12,24));label(name,dx,24,0);});
+hub.lines(det,0x1F3A6E,.7);hub.dots(leds,0x2F80ED,22,.3);const led=hub.dots(leds,0x2F80ED,9,1);
+const base=new THREE.BoxGeometry(20,1.2,13),scr=new THREE.BoxGeometry(20,12,.8),glass=M(0xBFE0FF),HE=[];
+[[-100,46],[-52,70],[0,78],[52,70],[100,46]].forEach(([lx,lz],i)=>{solid(base,[side,side,top,side,front,side],lx,-11.4,lz);
+  solid(scr,[side,side,top,side,glass,side],lx,-5,lz-8,-.25);HE.push([V(lx,-11,lz-7),ports[lx<0?0:lx>0?1:i%2]]);});
+hub.lines(HE.flat(),0x6FA8DC,.8);
+const hubPulse=pulses(hub,HE,7,0xF2994A,10);
 
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let host=null,last=0,full=true,boost=0,pose=0,idx=0;
@@ -355,10 +378,35 @@ function frame(t){requestAnimationFrame(frame);
   if(!host)return;const dt=Math.min((t-last)/1000,.05);last=t;const k=still?1:Math.min(1,dt*5);
   net.fade(full?.75:0,k);hub.fade(full?0:1,k);boost*=1-Math.min(1,dt*1.6);
   if(!still){net.rotation.y+=(pose+Math.sin(t/9000)*.2-net.rotation.y)*Math.min(1,dt*2.5);net.rotation.x=Math.cos(t/11000)*.1;
-    hub.rotation.y=t/7000+idx*.7;led.material.size=12+Math.sin(t/400)*2.5+boost*6;}
+    hub.rotation.y=Math.sin(t/3200+idx)*.38;led.material.size=9+Math.sin(t/400)*2+boost*7;}
   const sp=still?0:1+boost*3;if(net.visible)netPulse(dt,sp);if(hub.visible)hubPulse(dt,sp*1.4);
   R.render(scene,cam);}
 requestAnimationFrame(frame);})();
+</script>
+<script>
+// 底部狀態列（比照中山平台算力看板）：校徽、GPU 即時曲線（換頁時衝高）、儀表式頁碼
+(function(){document.documentElement.classList.add('zs');
+const bar=document.createElement('div');bar.id='zsbar';
+bar.innerHTML='<img src="assets/shots/zs_emblem.png" alt=""><span>中山國中 AI 算力中心</span><span class="lg"><i></i>GX10-A<i class="b"></i>GX10-B</span><canvas></canvas>'+
+ '<svg viewBox="0 0 120 74"><path class="trk" d="M10 64 A50 50 0 0 1 110 64"/><path class="val" d="M10 64 A50 50 0 0 1 110 64" stroke-dasharray="157.08" stroke-dashoffset="157.08"/><text class="num" x="60" y="56" text-anchor="middle"></text><text class="unit" x="60" y="71" text-anchor="middle"></text></svg>';
+const cv=bar.querySelector('canvas'),g=cv.getContext('2d'),val=bar.querySelector('.val'),num=bar.querySelector('.num'),unit=bar.querySelector('.unit');
+const all=[...document.querySelectorAll('.slide')],main=all.filter(s=>/^\d+$/.test(s.dataset.label)).length;
+const N=140,A=Array(N).fill(4),B=Array(N).fill(3);let host=null,a=4,b=3,ta=4,tb=3,last=0;
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function draw(){const W=cv.width=cv.clientWidth*2,H=cv.height=cv.clientHeight*2;if(!W)return;g.clearRect(0,0,W,H);
+  g.strokeStyle='#e8edf5';g.lineWidth=2;g.beginPath();g.moveTo(0,H-2);g.lineTo(W,H-2);g.stroke();
+  [[B,'#76b900'],[A,'#18409a']].forEach(([d,c])=>{g.strokeStyle=c;g.lineWidth=4;g.lineJoin='round';g.beginPath();
+    d.forEach((v,i)=>{const x=i/(N-1)*W,y=H-4-v/100*(H-10);i?g.lineTo(x,y):g.moveTo(x,y);});g.stroke();});}
+function tick(t){requestAnimationFrame(tick);
+  const on=document.querySelector('.slide.on'),ok=on&&!/t-(cover|divider|closing)/.test(on.className);
+  if(on!==host){host=on;if(ok){on.appendChild(bar);const lab=on.dataset.label,n=parseInt(lab);
+      num.textContent=lab;unit.textContent=isNaN(n)?'備用':'／ '+main;val.style.strokeDashoffset=157.08*(1-(isNaN(n)?1:n/main));}else bar.remove();
+    ta=55+Math.random()*40;setTimeout(()=>tb=40+Math.random()*35,500);}
+  if(!ok||t-last<90)return;last=t;
+  if(!still){a+=(ta-a)*.35;b+=(tb-b)*.3;ta+=(4-ta)*.06;tb+=(3-tb)*.05;
+    A.push(Math.max(1,a+Math.random()*3));A.shift();B.push(Math.max(1,b+Math.random()*2));B.shift();}
+  draw();}
+requestAnimationFrame(tick);})();
 </script>
 </body>
 </html>
