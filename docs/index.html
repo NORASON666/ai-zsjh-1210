@@ -23,6 +23,9 @@ html,body{margin:0;height:100%;background:#E9EFF6;color:var(--ink);font-family:"
 .slide:not(.t-cover):not(.t-closing):not(.t-divider)::after{content:"";position:absolute;right:60px;top:36px;width:360px;height:160px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='160'><path d='M10 140 C 90 150 120 60 200 90 S 280 40 300 40' fill='none' stroke='%235AA9E6' stroke-width='3' stroke-dasharray='8 9'/><path d='M300 40 l52 -24 -18 50 -12 -16 z' fill='white' stroke='%231E3A6E' stroke-width='3' stroke-linejoin='round'/></svg>") no-repeat;opacity:.7;pointer-events:none}
 .slide::before{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;background:linear-gradient(90deg,var(--sky),var(--pale) 60%,var(--orange))}
 .inner{position:absolute;inset:70px 120px 70px 120px;display:flex;flex-direction:column}
+.three .slide:not(.t-cover):not(.t-closing):not(.t-divider)::after{display:none}
+@media (prefers-reduced-motion:no-preference){.slide.on .inner{animation:slidein .4s cubic-bezier(.2,.7,.2,1)}}
+@keyframes slidein{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .pno{position:absolute;right:40px;bottom:30px;font:600 30px Caveat,cursive;color:var(--blue)}
 .kicker{font:700 30px "Noto Sans TC",sans-serif;color:var(--blue);letter-spacing:.06em;margin-bottom:6px}
 .kicker::before{content:"✎ ";color:var(--orange)}
@@ -369,42 +372,61 @@ addEventListener('keydown',e=>{if(z.classList.contains('on')){e.stopImmediatePro
 </script>
 <script src="assets/vendor/three.min.js"></script>
 <script>
-// three.js：封面、章節頁、結尾頁的 3D 神經網路背景（載入失敗就不顯示，不影響簡報）
+// three.js 視覺層（載入失敗就不顯示，不影響簡報）
+// 封面／章節／結尾：整面 3D 節點網路；內容頁：右上角「教室裡的兩台 AI 主機＋Chromebook」小模型（取自中山平台的架構）
 (function(){if(!window.THREE)return;
 const cv=document.createElement('canvas');
-cv.style.cssText='position:absolute;inset:0;width:1920px;height:1080px;pointer-events:none;mix-blend-mode:multiply;opacity:.75';
+cv.style.cssText='position:absolute;inset:0;width:1920px;height:1080px;pointer-events:none;mix-blend-mode:multiply';
 let R;try{R=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});}catch(e){return;}
+document.documentElement.classList.add('three');
 R.setPixelRatio(Math.min(devicePixelRatio,2));R.setSize(1920,1080,false);
 const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(42,1920/1080,1,3000);cam.position.z=900;
-const g=new THREE.Group();scene.add(g);
-// 節點：攤開成扁平的雲，中央留空給標題
-const N=130,P=[];let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
-while(P.length<N){const x=(rnd()-.5)*1900,y=(rnd()-.5)*1000,z=(rnd()-.5)*500;
-  if(Math.abs(x)<520&&Math.abs(y)<230)continue;P.push(new THREE.Vector3(x,y,z));}
-// 連線：每個節點連到最近的 3 個
-const E=[];P.forEach((a,i)=>{P.map((b,j)=>[a.distanceTo(b),j]).sort((u,v)=>u[0]-v[0]).slice(1,4)
-  .forEach(([d,j])=>{if(d<330&&i<j)E.push([i,j]);});});
-const lp=[];E.forEach(([i,j])=>lp.push(P[i].x,P[i].y,P[i].z,P[j].x,P[j].y,P[j].z));
-const lg=new THREE.BufferGeometry();lg.setAttribute('position',new THREE.Float32BufferAttribute(lp,3));
-g.add(new THREE.LineSegments(lg,new THREE.LineBasicMaterial({color:0x6FA8DC,transparent:true,opacity:.75})));
-// 圓點貼圖
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
 const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d');
 x.beginPath();x.arc(32,32,26,0,7);x.fillStyle='#fff';x.fill();const tex=new THREE.CanvasTexture(c);
-const dots=(pts,color,size)=>{const b=new THREE.BufferGeometry().setFromPoints(pts);
-  const m=new THREE.Points(b,new THREE.PointsMaterial({color,size,map:tex,transparent:true,alphaTest:.3}));g.add(m);return m;};
-dots(P,0x3D7DC8,16);
-// 沿著連線跑的橘色訊號
-const S=Array.from({length:22},()=>({e:E[Math.floor(rnd()*E.length)],t:rnd(),v:.25+rnd()*.5}));
-const sp=S.map(()=>new THREE.Vector3()),sm=dots(sp,0xF2994A,20);
+const V=(a,b,c)=>new THREE.Vector3(a,b,c);
+// 每個群組記下自己的材質，方便整組淡入淡出
+function layer(){const g=new THREE.Group();g.mats=[];scene.add(g);
+  g.mat=(m,o)=>{m.transparent=true;m.base=o;m.opacity=0;g.mats.push(m);return m;};
+  g.lines=(arr,color,o)=>{const b=new THREE.BufferGeometry().setFromPoints(arr);const l=new THREE.LineSegments(b,g.mat(new THREE.LineBasicMaterial({color}),o));g.add(l);return l;};
+  g.dots=(arr,color,size,o)=>{const b=new THREE.BufferGeometry().setFromPoints(arr);const m=new THREE.Points(b,g.mat(new THREE.PointsMaterial({color,size,map:tex,alphaTest:.05}),o));g.add(m);return m;};
+  g.a=0;g.fade=(to,k)=>{g.a+=(to-g.a)*k;g.visible=g.a>.01;g.mats.forEach(m=>m.opacity=m.base*g.a);};return g;}
+// 沿線跑的訊號
+function pulses(g,edges,n,color,size){const S=Array.from({length:n},()=>({e:edges[Math.floor(rnd()*edges.length)],t:rnd(),v:.25+rnd()*.5}));
+  const pts=S.map(()=>V(0,0,0)),m=g.dots(pts,color,size,1);
+  return (dt,k)=>{S.forEach((s,i)=>{s.t+=s.v*dt*k;if(s.t>1){s.t=0;s.e=edges[Math.floor(Math.random()*edges.length)];}pts[i].lerpVectors(s.e[0],s.e[1],s.t);});m.geometry.setFromPoints(pts);};}
+
+// ── 1. 節點網路（中央留空給標題）
+const net=layer(),P=[];
+while(P.length<130){const a=(rnd()-.5)*1900,b=(rnd()-.5)*1000,d=(rnd()-.5)*500;if(Math.abs(a)<520&&Math.abs(b)<230)continue;P.push(V(a,b,d));}
+const E=[];P.forEach((a,i)=>{P.map((b,j)=>[a.distanceTo(b),j]).sort((u,v)=>u[0]-v[0]).slice(1,4).forEach(([d,j])=>{if(d<330&&i<j)E.push([P[i],P[j]]);});});
+net.lines(E.flat(),0x6FA8DC,.6);net.dots(P,0x3D7DC8,16,.75);
+const netPulse=pulses(net,E,22,0xF2994A,20);
+
+// ── 2. 兩台主機＋圍一圈的 Chromebook（右上角）
+const hub=layer();hub.position.set(499,276,0);hub.rotation.x=.42;hub.scale.setScalar(1.3);
+const fill=hub.mat(new THREE.MeshBasicMaterial({color:0xC4DCF6}),1),edge=hub.mat(new THREE.LineBasicMaterial({color:0x1F3A6E}),1);
+const box=new THREE.BoxGeometry(30,28,30),leds=[],hubs=[];
+[-19,19].forEach(dx=>{const m=new THREE.Mesh(box,fill);m.position.x=dx;hub.add(m);
+  const e=new THREE.LineSegments(new THREE.EdgesGeometry(box),edge);e.position.x=dx;hub.add(e);
+  const gr=[];for(let i=0;i<4;i++){const y=-8+i*4;gr.push(V(dx-9,y,15.2),V(dx+1,y,15.2));}hub.lines(gr,0x1F3A6E,.8);
+  leds.push(V(dx+9,-8,15.4));hubs.push(V(dx,0,0));});
+const led=hub.dots(leds,0xF2A516,12,1);
+const lap=[],HE=[];for(let i=0;i<7;i++){const t=i/7*Math.PI*2+.3,p=V(Math.cos(t)*70,-14,Math.sin(t)*60);lap.push(p);HE.push([p,hubs[i%2]]);}
+hub.lines(HE.flat(),0x6FA8DC,.55);hub.dots(lap,0x3D7DC8,16,1);
+const hubPulse=pulses(hub,HE,6,0xF2994A,12);
+
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let host=null,last=0;
+let host=null,last=0,full=true,boost=0,pose=0,idx=0;
 function frame(t){requestAnimationFrame(frame);
-  const on=document.querySelector('.slide.on.t-cover,.slide.on.t-divider,.slide.on.t-closing');
-  if(on!==host){host=on;if(on)on.appendChild(cv);else cv.remove();}
-  if(!host)return;const dt=Math.min((t-last)/1000,.05);last=t;
-  if(!still){g.rotation.y=Math.sin(t/9000)*.22;g.rotation.x=Math.cos(t/11000)*.1;
-    S.forEach(s=>{s.t+=s.v*dt;if(s.t>1){s.t=0;s.e=E[Math.floor(Math.random()*E.length)];}});}
-  S.forEach((s,i)=>sp[i].lerpVectors(P[s.e[0]],P[s.e[1]],s.t));sm.geometry.setFromPoints(sp);
+  const on=document.querySelector('.slide.on');
+  if(on!==host){host=on;if(!on)return;if(on.classList.contains("t-cover"))on.appendChild(cv);else on.insertBefore(cv,on.firstChild);full=/t-(cover|divider|closing)/.test(on.className);
+    idx=[...on.parentNode.children].indexOf(on);pose=((idx%5)-2)*.13;boost=1;}
+  if(!host)return;const dt=Math.min((t-last)/1000,.05);last=t;const k=still?1:Math.min(1,dt*5);
+  net.fade(full?.75:0,k);hub.fade(full?0:1,k);boost*=1-Math.min(1,dt*1.6);
+  if(!still){net.rotation.y+=(pose+Math.sin(t/9000)*.2-net.rotation.y)*Math.min(1,dt*2.5);net.rotation.x=Math.cos(t/11000)*.1;
+    hub.rotation.y=t/7000+idx*.7;led.material.size=12+Math.sin(t/400)*2.5+boost*6;}
+  const sp=still?0:1+boost*3;if(net.visible)netPulse(dt,sp);if(hub.visible)hubPulse(dt,sp*1.4);
   R.render(scene,cam);}
 requestAnimationFrame(frame);})();
 </script>

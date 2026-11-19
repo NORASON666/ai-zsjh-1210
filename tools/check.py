@@ -12,5 +12,5 @@ with sync_playwright() as p:
           return [s.scrollHeight,s.clientHeight,inn.scrollHeight,inn.clientHeight,getComputedStyle(s).display]}""", i)
         pg.screenshot(path=f"{out}/s{i+1:02d}.jpg", type="jpeg", quality=60)
         print(i+1, lab, r)
-        pg.keyboard.press("ArrowRight"); pg.wait_for_timeout(350)
+        pg.keyboard.press("ArrowRight"); pg.wait_for_timeout(900)
     b.close()
