@@ -297,5 +297,46 @@ document.addEventListener('click',e=>{const t=e.target;
 addEventListener('keydown',e=>{if(z.classList.contains('on')){e.stopImmediatePropagation();e.preventDefault();z.classList.remove('on');}},true);
 })();
 </script>
+<script src="assets/vendor/three.min.js"></script>
+<script>
+// three.js：封面、章節頁、結尾頁的 3D 神經網路背景（載入失敗就不顯示，不影響簡報）
+(function(){if(!window.THREE)return;
+const cv=document.createElement('canvas');
+cv.style.cssText='position:absolute;inset:0;width:1920px;height:1080px;pointer-events:none;mix-blend-mode:multiply;opacity:.75';
+let R;try{R=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});}catch(e){return;}
+R.setPixelRatio(Math.min(devicePixelRatio,2));R.setSize(1920,1080,false);
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(42,1920/1080,1,3000);cam.position.z=900;
+const g=new THREE.Group();scene.add(g);
+// 節點：攤開成扁平的雲，中央留空給標題
+const N=130,P=[];let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+while(P.length<N){const x=(rnd()-.5)*1900,y=(rnd()-.5)*1000,z=(rnd()-.5)*500;
+  if(Math.abs(x)<520&&Math.abs(y)<230)continue;P.push(new THREE.Vector3(x,y,z));}
+// 連線：每個節點連到最近的 3 個
+const E=[];P.forEach((a,i)=>{P.map((b,j)=>[a.distanceTo(b),j]).sort((u,v)=>u[0]-v[0]).slice(1,4)
+  .forEach(([d,j])=>{if(d<330&&i<j)E.push([i,j]);});});
+const lp=[];E.forEach(([i,j])=>lp.push(P[i].x,P[i].y,P[i].z,P[j].x,P[j].y,P[j].z));
+const lg=new THREE.BufferGeometry();lg.setAttribute('position',new THREE.Float32BufferAttribute(lp,3));
+g.add(new THREE.LineSegments(lg,new THREE.LineBasicMaterial({color:0x6FA8DC,transparent:true,opacity:.75})));
+// 圓點貼圖
+const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d');
+x.beginPath();x.arc(32,32,26,0,7);x.fillStyle='#fff';x.fill();const tex=new THREE.CanvasTexture(c);
+const dots=(pts,color,size)=>{const b=new THREE.BufferGeometry().setFromPoints(pts);
+  const m=new THREE.Points(b,new THREE.PointsMaterial({color,size,map:tex,transparent:true,alphaTest:.3}));g.add(m);return m;};
+dots(P,0x3D7DC8,16);
+// 沿著連線跑的橘色訊號
+const S=Array.from({length:22},()=>({e:E[Math.floor(rnd()*E.length)],t:rnd(),v:.25+rnd()*.5}));
+const sp=S.map(()=>new THREE.Vector3()),sm=dots(sp,0xF2994A,20);
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let host=null,last=0;
+function frame(t){requestAnimationFrame(frame);
+  const on=document.querySelector('.slide.on.t-cover,.slide.on.t-divider,.slide.on.t-closing');
+  if(on!==host){host=on;if(on)on.appendChild(cv);else cv.remove();}
+  if(!host)return;const dt=Math.min((t-last)/1000,.05);last=t;
+  if(!still){g.rotation.y=Math.sin(t/9000)*.22;g.rotation.x=Math.cos(t/11000)*.1;
+    S.forEach(s=>{s.t+=s.v*dt;if(s.t>1){s.t=0;s.e=E[Math.floor(Math.random()*E.length)];}});}
+  S.forEach((s,i)=>sp[i].lerpVectors(P[s.e[0]],P[s.e[1]],s.t));sm.geometry.setFromPoints(sp);
+  R.render(scene,cam);}
+requestAnimationFrame(frame);})();
+</script>
 </body>
 </html>
