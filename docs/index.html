@@ -38,12 +38,12 @@ html,body{margin:0;height:100%;background:#E9EFF6;color:var(--ink);font-family:"
 .zsstat::before{content:"";width:14px;height:14px;border-radius:50%;background:#1f9d55;box-shadow:0 0 0 5px rgba(31,157,85,.18)}
 @media (prefers-reduced-motion:no-preference){.zsstat::before{animation:zsp 1.8s ease-in-out infinite}}
 @keyframes zsp{50%{box-shadow:0 0 0 10px rgba(31,157,85,0)}}
-#zsbar{position:absolute;left:36px;right:28px;bottom:10px;height:34px;display:flex;align-items:center;gap:12px;font:700 18px "Noto Sans TC",sans-serif;color:#18409a;pointer-events:none}
+#zsbar{position:absolute;left:36px;right:28px;bottom:6px;height:62px;display:flex;align-items:center;gap:12px;font:700 18px "Noto Sans TC",sans-serif;color:#18409a;pointer-events:none}
 #zsbar img{height:32px}
-#zsbar .lg{display:flex;align-items:center;gap:6px;font-size:15px;color:#56637d;margin-left:14px}
+#zsbar .lg{display:flex;align-items:center;gap:6px;font-size:15px;color:#56637d;margin-left:14px;white-space:nowrap;background:#eef3fc;border-radius:999px;padding:2px 12px}
 #zsbar .lg i{width:22px;height:4px;border-radius:2px;background:#18409a}#zsbar .lg i.b{background:#76b900;margin-left:10px}
-#zsbar canvas{flex:1;height:34px;min-width:0}
-#zsbar svg{width:118px;height:74px;align-self:flex-end;margin-bottom:-4px}
+#zsbar canvas{flex:1;height:52px;min-width:0;margin:0 10px 8px}
+#zsbar svg{width:118px;height:74px;align-self:flex-end;margin-bottom:6px}
 #zsbar .trk{fill:none;stroke:#d3dcec;stroke-width:12;stroke-linecap:round}
 #zsbar .val{fill:none;stroke:#18409a;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset .6s ease}
 #zsbar .num{font-size:30px;font-weight:800;fill:#13203a}#zsbar .unit{font-size:13px;fill:#56637d;font-weight:500}
@@ -518,6 +518,19 @@ while(P.length<130){const a=(rnd()-.5)*1900,b=(rnd()-.5)*1000,d=(rnd()-.5)*500;i
 const E=[];P.forEach((a,i)=>{P.map((b,j)=>[a.distanceTo(b),j]).sort((u,v)=>u[0]-v[0]).slice(1,4).forEach(([d,j])=>{if(d<330&&i<j)E.push([P[i],P[j]]);});});
 net.lines(E.flat(),0x6FA8DC,.6);net.dots(P,0x3D7DC8,16,.75);
 const netPulse=pulses(net,E,22,0xF2994A,20);
+// 2026-11-23：內容頁也要有科技元素，且各頁不同 ⇒ 再做兩種：電路走線（直角線＋焊點）、軌道環（同心圓＋衛星點）
+const circ=layer(),CP=[],CE=[];
+for(let k=0;k<26;k++){const side=k%4;let x,y;
+  if(side===0){x=-610+rnd()*150;y=(rnd()-.5)*660;}else if(side===1){x=460+rnd()*150;y=(rnd()-.5)*660;}
+  else if(side===2){x=(rnd()-.5)*1200;y=-345+rnd()*70;}else{x=(rnd()-.5)*1200;y=280+rnd()*60;}
+  let p=V(x,y,0);CP.push(p);for(let s2=0;s2<3;s2++){const h=s2%2===0,d=(rnd()<.5?-1:1)*(30+rnd()*80);
+    const q=h?V(p.x+d,p.y,0):V(p.x,p.y+d,0);CE.push([p,q]);p=q;}CP.push(p);}
+circ.lines(CE.flat(),0x4A8BD6,.75);circ.dots(CP,0x2F6FC0,20,1);const circPulse=pulses(circ,CE,18,0xF2994A,20);
+const orb=layer(),OE=[],OP=[];
+[[-560,-270],[560,250],[600,-280]].forEach(([cx,cy],ci)=>{for(let r=1;r<=4;r++){const R2=34+r*36,n=48;
+  for(let i=0;i<n;i++){const a1=i/n*Math.PI*2,a2=(i+1)/n*Math.PI*2;if((i+r+ci)%7===0)continue;OE.push([V(cx+Math.cos(a1)*R2,cy+Math.sin(a1)*R2,0),V(cx+Math.cos(a2)*R2,cy+Math.sin(a2)*R2,0)]);}
+  for(let j=0;j<r+1;j++){const a=rnd()*Math.PI*2;OP.push(V(cx+Math.cos(a)*R2,cy+Math.sin(a)*R2,0));}}});
+orb.lines(OE.flat(),0x4A8BD6,.9);orb.dots(OP,0x2F6FC0,22,1);const orbPulse=pulses(orb,OE,20,0xF2994A,18);
 
 // ── 2. 兩台 GX10 主機＋前面一排 Chromebook（內容頁右上角；外觀比照插圖：銀色方盒、散熱孔、藍色燈號）
 const hub=layer();hub.position.set(467,278,0);hub.rotation.x=.5;
@@ -547,10 +560,11 @@ function frame(t){requestAnimationFrame(frame);
   if(on!==host){host=on;if(!on)return;if(on.classList.contains("t-cover"))on.appendChild(cv);else on.insertBefore(cv,on.firstChild);full=/t-(cover|divider|closing|statement)/.test(on.className);
     idx=[...on.parentNode.children].indexOf(on);pose=((idx%5)-2)*.13;boost=1;}
   if(!host)return;const dt=Math.min((t-last)/1000,.05);last=t;const k=still?1:Math.min(1,dt*5);
-  net.fade(full?.75:0,k);hub.fade(0,k);/* 2026-11-23 右上角改用 GX10 3D（#gxmini） */boost*=1-Math.min(1,dt*1.6);
+  const kind=full?0:idx%3;   // 封面類用節點網路；內容頁依頁碼輪流三種
+  net.fade(full?.75:(kind===0?.62:0),k);circ.fade(!full&&kind===1?.95:0,k);orb.fade(!full&&kind===2?.9:0,k);hub.fade(0,k);/* 2026-11-23 右上角改用 GX10 3D（#gxmini） */boost*=1-Math.min(1,dt*1.6);
   if(!still){net.rotation.y+=(pose+Math.sin(t/9000)*.2-net.rotation.y)*Math.min(1,dt*2.5);net.rotation.x=Math.cos(t/11000)*.1;
     hub.rotation.y=Math.sin(t/3200+idx)*.38;led.material.size=9+Math.sin(t/400)*2+boost*7;}
-  const sp=still?0:1+boost*3;if(net.visible)netPulse(dt,sp);if(hub.visible)hubPulse(dt,sp*1.4);
+  const sp=still?0:1+boost*3;if(net.visible)netPulse(dt,sp);if(circ.visible)circPulse(dt,sp);if(orb.visible){orbPulse(dt,sp);if(!still)orb.rotation.z=Math.sin(t/14000)*.05;}if(hub.visible)hubPulse(dt,sp*1.4);
   R.render(scene,cam);}
 requestAnimationFrame(frame);})();
 </script>
@@ -558,28 +572,50 @@ requestAnimationFrame(frame);})();
 // 底部狀態列（比照中山平台算力看板）：校徽、GPU 即時曲線（換頁時衝高）、儀表式頁碼
 (function(){document.documentElement.classList.add('zs');
 const bar=document.createElement('div');bar.id='zsbar';
-bar.innerHTML='<img src="assets/shots/zs_emblem.png" alt=""><span>中山國中 AI 算力中心</span><span class="lg"><i></i>GX10-A<i class="b"></i>GX10-B</span><canvas></canvas>'+
+bar.innerHTML='<img src="assets/shots/zs_emblem.png" alt=""><span>中山國中 AI 算力中心</span><span class="lg" id="zsmode"></span><canvas></canvas>'+
  '<svg viewBox="0 0 120 74"><path class="trk" d="M10 64 A50 50 0 0 1 110 64"/><path class="val" d="M10 64 A50 50 0 0 1 110 64" stroke-dasharray="157.08" stroke-dashoffset="157.08"/><text class="num" x="60" y="56" text-anchor="middle"></text><text class="unit" x="60" y="71" text-anchor="middle"></text></svg>';
 document.querySelectorAll('.slide.t-cover,.slide.t-divider,.slide.t-closing').forEach(sl=>{const d=document.createElement('div');d.className='zslock';
   d.innerHTML='<img src="assets/shots/zs_emblem.png" alt="">臺北市立中山國民中學<i>×</i><span class="chip"><img src="assets/shots/zs_coolai.png" alt="酷AI系統"></span>';sl.appendChild(d);
   const ct=sl.querySelector('.cover-text');if(ct){const p=document.createElement('div');p.innerHTML='<span class="zsstat">校內 AI 運作中：<b>GX10-A</b>・<b>GX10-B</b></span>';ct.appendChild(p);}});
 const cv=bar.querySelector('canvas'),g=cv.getContext('2d'),val=bar.querySelector('.val'),num=bar.querySelector('.num'),unit=bar.querySelector('.unit');
 const all=[...document.querySelectorAll('.slide')],main=all.filter(s=>/^\d+$/.test(s.dataset.label)).length;
-const N=140,A=Array(N).fill(4),B=Array(N).fill(3);let host=null,a=4,b=3,ta=4,tb=3,last=0;
+// 2026-11-23：曲線換成 AI 元素，依頁輪流：神經網路／一個字一個字接／注意力／嵌入數字
+const MODES=[['🧠','神經網路'],['✍️','一個字一個字接'],['👀','注意力'],['🔢','字變成數字']];
+const modeEl=bar.querySelector('#zsmode');let host=null,mode=0,t0=0;
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function draw(){const W=cv.width=cv.clientWidth*2,H=cv.height=cv.clientHeight*2;if(!W)return;g.clearRect(0,0,W,H);
-  g.strokeStyle='#e8edf5';g.lineWidth=2;g.beginPath();g.moveTo(0,H-2);g.lineTo(W,H-2);g.stroke();
-  [[B,'#76b900'],[A,'#18409a']].forEach(([d,c])=>{g.strokeStyle=c;g.lineWidth=4;g.lineJoin='round';g.beginPath();
-    d.forEach((v,i)=>{const x=i/(N-1)*W,y=H-4-v/100*(H-10);i?g.lineTo(x,y):g.moveTo(x,y);});g.stroke();});}
+const POEM=[...'床前明月光疑是地上霜舉頭望明月低頭思故鄉'];
+const C1='#2563c9',C2='#7048e8',C3='#e8590c',LN='#c8d4ea';
+function dot(x,y,r,c,a){g.globalAlpha=a==null?1:a;g.fillStyle=c;g.beginPath();g.arc(x,y,r,0,7);g.fill();g.globalAlpha=1;}
+function draw(t){const FW=cv.width=cv.clientWidth*2,H=cv.height=cv.clientHeight*2;if(!FW)return;g.clearRect(0,0,FW,H);
+  const T=still?0:(t-t0)/1000,cy=H/2,W=Math.min(FW,1240);g.save();g.translate((FW-W)/2,0);   // 元素集中在中間，不拉長
+  if(mode===0){ // 神經網路：多層節點、連線、訊號由左往右
+    const L=[3,4,4,4,4,4,4,3],cols=L.length,gap=W/(cols+1),ys=(n,i)=>cy+(i-(n-1)/2)*(H-14)/4,x=c=>gap*(c+1);
+    g.lineWidth=1.4;g.strokeStyle=LN;for(let c=0;c<cols-1;c++)for(let i=0;i<L[c];i++)for(let j=0;j<L[c+1];j++){g.beginPath();g.moveTo(x(c),ys(L[c],i));g.lineTo(x(c+1),ys(L[c+1],j));g.stroke();}
+    const ph=(T*.6)%1*(cols-1);for(let k=0;k<10;k++){const c=Math.floor((ph+k*.7)%(cols-1)),f=((ph+k*.7)%(cols-1))-c,i=(k*3)%L[c],j=(k*7)%L[c+1];
+      dot(x(c)+(x(c+1)-x(c))*f,ys(L[c],i)+(ys(L[c+1],j)-ys(L[c],i))*f,4,C3);}
+    for(let c=0;c<cols;c++)for(let i=0;i<L[c];i++){const hot=Math.abs(c-ph)<.6;dot(x(c),ys(L[c],i),hot?8:6.5,c===0?C3:c===cols-1?'#e39a17':(hot?C2:C1),hot?1:.8);}
+  }else if(mode===1){ // 一個字一個字接：字塊依序亮起，最新的發光
+    const n=POEM.length,w=Math.min(H-8,W/(n+2)),x0=(W-n*w)/2,shown=4+Math.floor((T*2.2)%(n+1));
+    g.font=`900 ${Math.round(w*.62)}px "Noto Sans TC",sans-serif`;g.textAlign='center';g.textBaseline='middle';
+    for(let i=0;i<n;i++){const x=x0+i*w,on=i<shown,nw=i===shown-1;g.fillStyle=nw?C3:on?'#dfe8fa':'#eef2f8';
+      g.beginPath();g.roundRect(x+3,cy-w/2+4,w-6,w-8,8);g.fill();g.fillStyle=nw?'#fff':on?'#18409a':'#c9d3e4';g.fillText(on||i>shown?POEM[i]:'？',x+w/2,cy+2);}
+    if(shown<n){const x=x0+shown*w;g.strokeStyle=C3;g.lineWidth=2;g.setLineDash([5,5]);g.beginPath();g.roundRect(x+3,cy-w/2+4,w-6,w-8,8);g.stroke();g.setLineDash([]);}
+  }else if(mode===2){ // 注意力：一排詞，最後一個字回頭看前面（弧線粗細＝注意多少）
+    const n=14,gap=W/(n+1),q=n-1-Math.floor(T*.5)%4,wts=[.9,.2,.1,.35,.05,.25,.15,.5,.1,.3,.6,.2,.4,.1];
+    for(let i=0;i<q;i++){const x1=gap*(q+1),x2=gap*(i+1),h=(H-14)*Math.min(1,.35+(x1-x2)/W*1.6);g.strokeStyle=`rgba(232,89,12,${.25+wts[i]*.65})`;g.lineWidth=1+wts[i]*5;
+      g.beginPath();g.moveTo(x1,H-8);g.bezierCurveTo(x1,H-8-h,x2,H-8-h,x2,H-8);g.stroke();}
+    for(let i=0;i<n;i++)dot(gap*(i+1),H-8,i===q?8:5.5,i===q?C3:i<q?C1:'#c8d4ea');
+  }else{ // 字變成數字：一格格數字熱度圖，微微閃動
+    const cols=Math.floor(W/16),rows=4,cw=W/cols,ch=(H-8)/rows;
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const v=.5+.5*Math.sin(c*.37+r*1.7+T*1.4+Math.sin(c*.11)*3);
+      g.fillStyle=`hsl(${215+v*45},${55+v*15}%,${95-v*30}%)`;g.beginPath();g.roundRect(c*cw+1.5,4+r*ch+1.5,cw-3,ch-3,3);g.fill();}
+  }g.restore();}
 function tick(t){requestAnimationFrame(tick);
   const on=document.querySelector('.slide.on'),ok=on&&!/t-(cover|closing)/.test(on.className);
   if(on!==host){host=on;if(ok){on.appendChild(bar);const lab=on.dataset.label,n=parseInt(lab);
-      num.textContent=lab;unit.textContent=isNaN(n)?'備用':'／ '+main;val.style.strokeDashoffset=157.08*(1-(isNaN(n)?1:n/main));}else bar.remove();
-    ta=55+Math.random()*40;setTimeout(()=>tb=40+Math.random()*35,500);}
-  if(!ok||t-last<90)return;last=t;
-  if(!still){a+=(ta-a)*.35;b+=(tb-b)*.3;ta+=(4-ta)*.06;tb+=(3-tb)*.05;
-    A.push(Math.max(1,a+Math.random()*3));A.shift();B.push(Math.max(1,b+Math.random()*2));B.shift();}
-  draw();}
+      num.textContent=lab;unit.textContent=isNaN(n)?'備用':'／ '+main;val.style.strokeDashoffset=157.08*(1-(isNaN(n)?1:n/main));
+      mode=[...all].indexOf(on)%MODES.length;modeEl.textContent=MODES[mode].join(' ');t0=t;}else bar.remove();}
+  if(ok)draw(t);}
 requestAnimationFrame(tick);})();
 </script>
 </body>
