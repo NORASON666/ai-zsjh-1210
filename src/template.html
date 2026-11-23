@@ -295,6 +295,16 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 .tbl td:first-child{background:#f6f9ff}
 /* 說明條（foot）：白底＋漸層左條 */
 .foot{background:#fff!important;border:1.5px solid #e3eaf7;border-left:9px solid var(--orange);box-shadow:0 10px 26px rgba(30,58,110,.06)}
+.dr{flex:1;min-height:0;display:grid;grid-template-columns:460px 1fr;gap:44px;align-items:center}
+.dr-big{position:relative;width:460px;height:460px;border-radius:26px;overflow:hidden;box-shadow:0 24px 60px rgba(30,58,110,.2)}
+.dr-big img{width:100%;height:100%;object-fit:cover;display:block;image-rendering:auto}
+.dr-step{position:absolute;left:18px;top:18px;background:rgba(19,32,58,.78);color:#fff;font:800 30px "Noto Sans TC",sans-serif;padding:6px 18px;border-radius:999px}
+.dr-bar{position:absolute;left:0;right:0;bottom:0;height:10px;background:rgba(255,255,255,.5)}.dr-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3))}
+.dr-prompt{background:#fff;border:1.5px solid #dfe7f3;border-radius:22px;padding:16px 24px;font-size:28px;line-height:1.5;box-shadow:0 14px 36px rgba(30,58,110,.08);margin-bottom:26px}
+.dr-prompt b{display:block;font-size:22px;color:#2563c9;margin-top:6px}.dr-prompt span{font:500 22px/1.45 ui-monospace,Menlo,monospace;color:#56637d}
+.dr-strip{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
+.dr-strip figure{margin:0;text-align:center}.dr-strip img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;box-shadow:0 8px 20px rgba(30,58,110,.14)}
+.dr-strip figcaption{font:700 19px "Noto Sans TC",sans-serif;color:#56637d;margin-top:4px}.dr-strip .fin figcaption{color:#e8590c}
 #gxmini{position:absolute;right:20px;top:4px;width:380px;height:200px;z-index:6;pointer-events:none;display:none}
 </style>
 </head>
@@ -518,6 +528,13 @@ function tick(t){requestAnimationFrame(tick);
       POEM=[...LINES[[...all].indexOf(on)%LINES.length]];modeEl.textContent='✍️ 一個字一個字接';t0=t;}else bar.remove();}
   if(ok)draw(t);}
 requestAnimationFrame(tick);})();
+</script>
+<script>
+/* P19 真實去雜訊過程：GX10-B 實際生成的 25 步預覽，輪流播放 */
+(function(){const im=document.getElementById('drimg');if(!im)return;const st=document.getElementById('drstep'),bar=document.getElementById('drbar');
+const fr=[...Array(26).keys()].map(k=>'assets/diff/step'+String(k).padStart(2,'0')+'.jpg').concat(['assets/diff/final.jpg']);fr.forEach(u=>{const i=new Image();i.src=u;});
+let k=0,hold=0;setInterval(()=>{if(!im.closest('.slide.on'))return;if(hold>0){hold--;return;}k=(k+1)%fr.length;im.src=fr[k];
+  st.textContent=k===26?'完成（約 10 秒）':'第 '+k+' 步';bar.style.width=(k/26*100)+'%';if(k===0)hold=4;if(k===26)hold=10;},260);})();
 </script>
 </body>
 </html>

@@ -71,6 +71,14 @@ def render(d):
         k = f'<div class="k">{e(d["kicker"])}</div>' if d.get("kicker") else ""
         sub = f'<p>{e(d["sub"])}</p>' if d.get("sub") else ""
         return f'<div class="stmt">{k}<h2>{d["html"]}</h2>{sub}</div>'
+    if t == "diffreal":
+        ks = [0, 3, 6, 10, 15, 20, 25]
+        th = "".join(f'<figure><img src="assets/diff/step{k:02d}.jpg" alt=""><figcaption>第 {k} 步</figcaption></figure>' for k in ks)
+        th += '<figure class="fin"><img src="assets/diff/final.jpg" alt=""><figcaption>完成</figcaption></figure>'
+        return f'''{head(d)}<div class="dr"><div class="dr-big"><img id="drimg" src="assets/diff/step00.jpg" alt="去雜訊過程"><div class="dr-step" id="drstep">第 0 步</div>
+<div class="dr-bar"><i id="drbar"></i></div></div>
+<div class="dr-side"><div class="dr-prompt"><b>學生打的字</b>月亮上的一隻貓（童書插畫）<b>AI 改寫的英文提示詞</b><span>a cute fluffy cat, sitting on a glowing crescent moon, starry night sky, children's book illustration style…</span></div>
+<div class="dr-strip">{th}</div></div></div>{foot(d)}'''
     if t == "fig":
         return f'{head(d)}<div class="figw"><img src="assets/figs/{d["fig"]}.svg" alt="{e(d["title"])}"></div>{foot(d)}'
     if t == "divider":
