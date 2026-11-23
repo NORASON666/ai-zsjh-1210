@@ -271,6 +271,30 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 .stmt .k{font:700 34px "Noto Sans TC",sans-serif;color:#2563c9;letter-spacing:.08em;margin-bottom:26px}
 .stmt h2{margin:0;font-weight:900;font-size:156px;line-height:1.12;color:#13203a;letter-spacing:-.01em}
 .stmt p{margin:42px auto 0;max-width:1560px;font:500 40px/1.6 "Noto Sans TC",sans-serif;color:#56637d}
+
+/* ===== 2026-11-23 整體視覺優化第二輪 ===== */
+/* 插圖頁：圖放大、白框浮起；說明改成圖下方的說明卡 */
+.t-illus .illus{flex:1;min-height:0;display:flex;justify-content:center;align-items:center;margin:4px 0 6px}
+.t-illus .illus .ill{height:100%;max-width:100%;object-fit:contain;mix-blend-mode:normal;background:#fff;padding:14px;border-radius:32px;
+  box-shadow:0 26px 64px rgba(30,58,110,.16),0 0 0 1px rgba(30,58,110,.06)}
+.t-illus .foot,.t-fig .foot{font-size:34px}
+/* 純條列頁：每點一張橫向卡片 */
+.t-bullets .bul{list-style:none;padding:0;margin:auto 0;display:flex;flex-direction:column;gap:26px;font-size:46px}
+.t-bullets .bul li{position:relative;margin:0;background:#fff;border:1.5px solid #dfe7f3;border-radius:26px;padding:26px 40px 26px 92px;
+  box-shadow:0 14px 36px rgba(30,58,110,.08);line-height:1.45}
+.t-bullets .bul li::before{content:"";position:absolute;left:38px;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--g2))}
+.t-bullets .bul li.hl{border-color:#b8c8f5;background:linear-gradient(90deg,#f2f6ff,#fff)}
+/* 章節頁：大標不硬斷、插圖略縮 */
+.slide.t-divider .dv-title{font-size:116px;line-height:1.12;word-break:keep-all}
+.slide.t-divider .dv-ill{width:700px;height:700px}
+/* 截圖＋文字頁：文字段落加左側色條，讀起來有節奏 */
+.st-text p{padding-left:26px;border-left:6px solid #e3eaf7;font-size:38px;line-height:1.5;margin:0 0 20px}
+.st-text p:first-child{border-left-color:var(--g1)}
+/* 表格：表頭漸層、第一欄淡底 */
+.tbl th{background:linear-gradient(90deg,#18409a,#2563c9)}
+.tbl td:first-child{background:#f6f9ff}
+/* 說明條（foot）：白底＋漸層左條 */
+.foot{background:#fff!important;border:1.5px solid #e3eaf7;border-left:9px solid var(--orange);box-shadow:0 10px 26px rgba(30,58,110,.06)}
 #gxmini{position:absolute;right:20px;top:4px;width:380px;height:200px;z-index:6;pointer-events:none;display:none}
 </style>
 </head>
@@ -450,7 +474,12 @@ addEventListener('keydown',e=>{if(z.classList.contains('on')){e.stopImmediatePro
 </script>
 <script src="assets/vendor/three.min.js"></script>
 <script src="assets/vendor/gx10.js"></script>
-<script>document.querySelectorAll("canvas.gx").forEach(c=>GX10Hero(c,{two:c.dataset.two==="1",mini:c.dataset.mini==="1"}));setInterval(()=>{const on=document.querySelector(".slide.on"),m=document.getElementById("gxmini");if(m)m.style.display=(!on||/t-(cover|closing|divider|statement)/.test(on.className))?"none":"block";},150);</script>
+<script>document.querySelectorAll("canvas.gx").forEach(c=>GX10Hero(c,{two:c.dataset.two==="1",mini:c.dataset.mini==="1"}));setInterval(()=>{const on0=document.querySelector(".slide.on");const tt=on0&&on0.querySelector(".title:not(.fitted)");
+  if(tt){/* 長標題自動縮字，保持一行、不壓到右上角模型 */const sp=tt.querySelector("span")||tt;let f=parseFloat(getComputedStyle(tt).fontSize);sp.style.whiteSpace="nowrap";
+    while(sp.getBoundingClientRect().width/(document.getElementById("deck").getBoundingClientRect().width/1920)>1250&&f>50){f-=2;tt.style.fontSize=f+"px";}
+    if(f<=50)sp.style.whiteSpace="";tt.classList.add("fitted");}
+},120);
+setInterval(()=>{const on=document.querySelector(".slide.on"),m=document.getElementById("gxmini");if(m)m.style.display=(!on||/t-(cover|closing|divider|statement)/.test(on.className))?"none":"block";},150);</script>
 <script>
 // three.js 視覺層（載入失敗就不顯示，不影響簡報）
 // 封面／章節／結尾：整面 3D 節點網路；內容頁：右上角「教室裡的兩台 AI 主機＋Chromebook」小模型（取自中山平台的架構）
