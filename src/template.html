@@ -225,44 +225,52 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 #zoom.on{display:flex}
 #zoom img{max-width:96vw;max-height:96vh;object-fit:contain;border-radius:10px;background:#fff;box-shadow:0 10px 60px rgba(0,0,0,.5)}
 
-/* ===== 2026-11-23 衝擊版：暗色封面（GX10 3D）、暗色章節頁、大字宣言頁、圖解頁、暗色數字頁 ===== */
-.slide.t-cover,.slide.t-closing,.slide.t-divider,.slide.t-statement,.slide.dark{background:radial-gradient(ellipse at 70% 115%,#123a8c 0%,#071534 45%,#02040b 85%)}
-.slide.t-cover::before,.slide.t-closing::before,.slide.t-divider::before,.slide.t-statement::before,.slide.dark::before{background:linear-gradient(90deg,#3fc0e8,#7048e8 55%,#f2a516)!important;height:6px!important}
-.grad{background:linear-gradient(90deg,#7fe3ff 0%,#b98bff 48%,#ffc23d 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 90px 0 110px}
-.hero canvas.gx{position:absolute;right:-40px;top:120px;width:1060px;height:820px}
+/* ===== 2026-11-23 衝擊版（淺色）：Nora 偏好淺色底，封面／章節／宣言頁與一般頁面同一套淺色語言 ===== */
+:root{--g1:#2563c9;--g2:#7048e8;--g3:#e8590c}
+.slide{background:radial-gradient(ellipse at 85% -10%,#e6efff 0%,rgba(230,239,255,0) 45%),radial-gradient(ellipse at -10% 110%,#fff1e0 0%,rgba(255,241,224,0) 40%),#fbfcff;
+  background-image:radial-gradient(ellipse at 85% -10%,#e6efff 0%,rgba(230,239,255,0) 45%),radial-gradient(ellipse at -10% 110%,#fff1e6 0%,rgba(255,241,230,0) 40%),radial-gradient(circle at 1px 1px,#e6edf7 1px,transparent 0);background-size:auto,auto,28px 28px}
+.grad{background:linear-gradient(90deg,var(--g1) 0%,var(--g2) 50%,var(--g3) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* 標題：細漸層底線 */
+.slide .title span{background:none!important;border-bottom:0!important}
+.slide .title{position:relative;padding-bottom:16px}
+.slide .title::after{content:"";position:absolute;left:0;bottom:0;width:180px;height:7px;border-radius:7px;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3))}
+/* 卡片、步驟、表格、截圖：圓角＋柔和陰影（取代手繪框） */
+.card{border:1.5px solid #dfe7f3;border-radius:28px;box-shadow:0 18px 44px rgba(30,58,110,.09),0 2px 6px rgba(30,58,110,.05);padding:34px 38px}
+.card h3{color:#13203a}
+.cards.c3 .card::before,.cards.c2 .card::before,.cards.c4 .card::before{content:"";position:absolute;left:38px;top:0;width:64px;height:6px;border-radius:0 0 6px 6px;background:linear-gradient(90deg,var(--g1),var(--g2))}
+.stat .big{background:linear-gradient(90deg,var(--g1),var(--g2) 55%,var(--g3));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:104px}
+.card .num,.steps .num{background:linear-gradient(135deg,var(--g1),var(--g2))}
+.arrows .card:not(:last-child)::after{color:#b3c1d8}
+.steps li{border:1.5px solid #dfe7f3;border-radius:26px;box-shadow:0 14px 36px rgba(30,58,110,.08);color:#13203a}
+.tbl{border:1.5px solid #dfe7f3;border-radius:26px;box-shadow:0 18px 44px rgba(30,58,110,.08)}
+.tbl th{background:#18409a}.tbl td{border-top:1px solid #e6ecf5}
+.tbl th:nth-child(3){background:linear-gradient(90deg,#c26a12,#e8590c)}.tbl th:nth-child(3),.tbl td:nth-child(3){}
+.shot img,.vid video,.shot.video iframe{border:0;border-radius:22px;box-shadow:0 24px 60px rgba(30,58,110,.18),0 0 0 1px rgba(30,58,110,.08)}
+.st-img img{filter:drop-shadow(0 18px 34px rgba(30,58,110,.18))}
+.prompt.code pre{border:1.5px solid #dfe7f3;box-shadow:0 18px 44px rgba(30,58,110,.08)}
+.foot{border-radius:16px}
+.figw img{border-radius:26px;box-shadow:0 24px 60px rgba(30,58,110,.14),0 0 0 1px rgba(30,58,110,.06)}
+.figw{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}.figw img{max-width:100%;max-height:100%}
+/* 封面／結尾：淺色＋GX10 3D */
+.hero{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:0 90px 0 120px}
+.hero canvas.gx{position:absolute;right:-30px;top:130px;width:1040px;height:800px}
 .hero .ht{position:relative;z-index:2}
-.hero .org{font:700 30px "Noto Sans TC",sans-serif;color:#86d8ff;letter-spacing:.04em}
-.hero h1{font-weight:900;font-size:150px;line-height:1.05;color:#f5f5f7;margin:22px 0 18px;letter-spacing:-.01em}
-.hero .sub{font:700 54px "Noto Sans TC",sans-serif;color:#d6e3ff}
-.hero .meta{margin-top:46px;font:500 34px "Noto Sans TC",sans-serif;color:#a1a1a6}
-.hero .who{margin-top:14px;font:500 34px "Noto Sans TC",sans-serif;color:#d6e3ff}.hero .who b{font-size:44px;color:#fff}
-.slide.t-cover .zsstat,.slide.t-closing .zsstat{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#e6efff}
-.slide.t-cover .zslock,.slide.t-closing .zslock,.slide.t-divider .zslock,.slide.t-statement .zslock{color:#cfe0ff}
-.slide.t-cover .zslock i,.slide.t-closing .zslock i,.slide.t-divider .zslock i{color:#8ea3cc}
-.slide.t-divider .dv-title{color:#f5f5f7;font-size:150px}
-.slide.t-divider .dv-sub{color:#a9bde6;border-bottom-color:#f2a516}
-.slide.t-divider .kicker{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25)}
-.slide.t-divider .dv-ill .ill{border-radius:36px;background:#fbfdff;box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 2px rgba(127,227,255,.25);padding:18px;height:auto;max-height:100%}
-.stmt{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.stmt .k{font:700 34px "Noto Sans TC",sans-serif;color:#86d8ff;letter-spacing:.08em;margin-bottom:26px}
-.stmt h2{margin:0;font-weight:900;font-size:150px;line-height:1.12;color:#f5f5f7;letter-spacing:-.01em}
-.stmt p{margin:40px auto 0;max-width:1300px;font:500 40px/1.6 "Noto Sans TC",sans-serif;color:#a1a1a6}
-.figw{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
-.figw img{max-width:100%;max-height:100%;border-radius:22px;box-shadow:0 14px 44px rgba(30,58,110,.14)}
-.slide.dark .title{color:#f5f5f7}.slide.dark .title span{background:none}
-.slide.dark .kicker{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25)}
-.slide.dark .card.stat{background:transparent;border:0;border-top:3px solid rgba(255,255,255,.22);border-radius:0;box-shadow:none}
-.slide.dark .card.stat::before,.slide.dark .card.stat::after{display:none}
-.slide.dark .card.stat .big{background:linear-gradient(90deg,#7fe3ff,#b98bff 50%,#ffc23d);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:120px}
-.slide.dark .card.stat h3{color:#f5f5f7}.slide.dark .card.stat p{color:#a1a1a6}
-.slide.dark .foot,.slide.dark .src{color:#a1a1a6}.slide.dark .rel{background:rgba(255,255,255,.06);color:#d6e3ff}
-.slide.dark .shot img{box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.slide.t-divider .ill,.slide.dark .ill{mix-blend-mode:normal}
 .hero .cover-text{background:none;box-shadow:none;padding:0;border-radius:0;text-align:left}
-.slide.t-divider .dv-title{font-size:132px}
-.stmt p{max-width:1560px}
-.slide.dark .foot{background:rgba(255,255,255,.06);color:#d6e3ff}.slide.dark .rel .tag{background:#2563c9}
+.hero .org{font:700 30px "Noto Sans TC",sans-serif;color:#2563c9;letter-spacing:.03em;line-height:1.5}
+.hero h1{font-weight:900;font-size:150px;line-height:1.05;color:#13203a;margin:24px 0 20px;letter-spacing:-.01em}
+.hero .sub{font:700 54px "Noto Sans TC",sans-serif;color:#1e3a6e}
+.hero .meta{margin-top:44px;font:500 34px "Noto Sans TC",sans-serif;color:#56637d}
+.hero .who{margin-top:12px;font:500 34px "Noto Sans TC",sans-serif;color:#1e3a6e}.hero .who b{font-size:44px;color:#13203a}
+.slide.t-cover::after,.slide.t-closing::after{display:none}
+/* 章節頁：淺色大標＋白框插圖 */
+.slide.t-divider .dv-title{font-size:132px;color:#13203a}
+.slide.t-divider .dv-sub{color:#1e3a6e;border-bottom:0;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3)) left bottom/100% 7px no-repeat;padding-bottom:14px}
+.slide.t-divider .dv-ill .ill{border-radius:36px;background:#fff;box-shadow:0 30px 70px rgba(30,58,110,.18);padding:16px;height:auto;max-height:100%;mix-blend-mode:normal}
+/* 宣言頁：整頁一句話 */
+.stmt{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.stmt .k{font:700 34px "Noto Sans TC",sans-serif;color:#2563c9;letter-spacing:.08em;margin-bottom:26px}
+.stmt h2{margin:0;font-weight:900;font-size:156px;line-height:1.12;color:#13203a;letter-spacing:-.01em}
+.stmt p{margin:42px auto 0;max-width:1560px;font:500 40px/1.6 "Noto Sans TC",sans-serif;color:#56637d}
 </style>
 </head>
 <body>
@@ -422,7 +430,7 @@ const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let host=null,last=0,full=true,boost=0,pose=0,idx=0;
 function frame(t){requestAnimationFrame(frame);
   const on=document.querySelector('.slide.on');
-  if(on!==host){host=on;if(!on)return;if(on.classList.contains("t-cover"))on.appendChild(cv);else on.insertBefore(cv,on.firstChild);full=/t-(cover|divider|closing|statement)/.test(on.className);cv.style.mixBlendMode=/t-(cover|divider|closing|statement)|dark/.test(on.className)?'screen':'multiply';
+  if(on!==host){host=on;if(!on)return;if(on.classList.contains("t-cover"))on.appendChild(cv);else on.insertBefore(cv,on.firstChild);full=/t-(cover|divider|closing|statement)/.test(on.className);
     idx=[...on.parentNode.children].indexOf(on);pose=((idx%5)-2)*.13;boost=1;}
   if(!host)return;const dt=Math.min((t-last)/1000,.05);last=t;const k=still?1:Math.min(1,dt*5);
   net.fade(full?.75:0,k);hub.fade(full?0:1,k);boost*=1-Math.min(1,dt*1.6);
