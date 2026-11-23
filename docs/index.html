@@ -271,6 +271,7 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 .stmt .k{font:700 34px "Noto Sans TC",sans-serif;color:#2563c9;letter-spacing:.08em;margin-bottom:26px}
 .stmt h2{margin:0;font-weight:900;font-size:156px;line-height:1.12;color:#13203a;letter-spacing:-.01em}
 .stmt p{margin:42px auto 0;max-width:1560px;font:500 40px/1.6 "Noto Sans TC",sans-serif;color:#56637d}
+#gxmini{position:absolute;right:20px;top:4px;width:380px;height:200px;z-index:6;pointer-events:none;display:none}
 </style>
 </head>
 <body>
@@ -353,6 +354,7 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 <section class="slide t-bullets" id="p備1" data-label="備1"><div class="inner"><div class="kicker">備用｜還沒做好的地方</div><h2 class="title"><span>這套系統的限制，也跟大家報告</span></h2><ul class="bul"><li class="">AI 現場生成的動畫、遊戲，品質不穩定——展示時常用預先做好的範例</li><li class="">免登入，所以知道網址的人都能操作大螢幕的「開始訓練」</li><li class="">只能在校內用；手機用行動網路掃 QR Code 連不到</li><li class="">從零訓練的小模型只會唐詩的樣子，離「懂」很遠——這是刻意讓學生看到的</li></ul><p class="foot">等一下操作時遇到怪結果，很正常，歡迎告訴我們</p></div><div class="pno">備1</div></section>
 <section class="slide t-shotText" id="p備2" data-label="備2"><div class="inner"><div class="kicker">備用｜若被問到</div><h2 class="title"><span>其他功能：動畫、遊戲、永續探究、錯題對戰</span></h2><div class="st"><div class="st-img"><img src="assets/shots/zs_battle.jpg" alt=""></div><div class="st-text"><p><b>AI 動畫工坊</b>：一句話產生教學動畫</p><p><b>AI 互動遊戲工坊</b>：提示詞教練＋程式設計師，做出小遊戲</p><p><b>永續探究實驗室</b>：碳排、節電、樑承重——數字由程式算，AI 只負責解說</p><p><b>錯題對戰場</b>：框一題考卷上的錯題，AI 出 5 道類似題，兩人對戰</p></div></div></div><div class="pno">備2</div></section>
 <section class="slide t-table" id="p備3" data-label="備3"><div class="inner"><div class="kicker">備用｜若被問到</div><h2 class="title"><span>常見問題</span></h2><table class="tbl compact"><thead><tr><th>問題</th><th>回答</th></tr></thead><tbody><tr><td>這要花多少錢？</td><td>硬體是捐贈；系統由數位學習中心自行開發，使用開放模型，沒有授權費</td></tr><tr><td>別的學校可以用嗎？</td><td>目前在中山國中校內運作；設計與原理教室的內容可以分享</td></tr><tr><td>會取代老師嗎？</td><td>審核、提問、帶討論都是老師；系統把「AI 會錯」放在學生看得到的地方</td></tr><tr><td>國小生適合嗎？</td><td>塗鴉、繪圖、對戰可以直接用；訓練的部分建議高年級，並改用拉桿選單</td></tr></tbody></table></div><div class="pno">備3</div></section>
+<canvas id="gxmini" class="gx" data-two="1" data-mini="1" aria-hidden="true"></canvas>
 </div></div>
 <aside id="panel" aria-label="補充資料與講稿"><header>
 <button data-tab="sup" class="act">📎 補充資料</button><button data-tab="notes">🗒 講稿</button>
@@ -448,7 +450,7 @@ addEventListener('keydown',e=>{if(z.classList.contains('on')){e.stopImmediatePro
 </script>
 <script src="assets/vendor/three.min.js"></script>
 <script src="assets/vendor/gx10.js"></script>
-<script>document.querySelectorAll("canvas.gx").forEach(c=>GX10Hero(c,{two:c.dataset.two==="1"}));</script>
+<script>document.querySelectorAll("canvas.gx").forEach(c=>GX10Hero(c,{two:c.dataset.two==="1",mini:c.dataset.mini==="1"}));setInterval(()=>{const on=document.querySelector(".slide.on"),m=document.getElementById("gxmini");if(m)m.style.display=(!on||/t-(cover|closing|divider|statement)/.test(on.className))?"none":"block";},150);</script>
 <script>
 // three.js 視覺層（載入失敗就不顯示，不影響簡報）
 // 封面／章節／結尾：整面 3D 節點網路；內容頁：右上角「教室裡的兩台 AI 主機＋Chromebook」小模型（取自中山平台的架構）
@@ -509,7 +511,7 @@ function frame(t){requestAnimationFrame(frame);
   if(on!==host){host=on;if(!on)return;if(on.classList.contains("t-cover"))on.appendChild(cv);else on.insertBefore(cv,on.firstChild);full=/t-(cover|divider|closing|statement)/.test(on.className);
     idx=[...on.parentNode.children].indexOf(on);pose=((idx%5)-2)*.13;boost=1;}
   if(!host)return;const dt=Math.min((t-last)/1000,.05);last=t;const k=still?1:Math.min(1,dt*5);
-  net.fade(full?.75:0,k);hub.fade(full?0:1,k);boost*=1-Math.min(1,dt*1.6);
+  net.fade(full?.75:0,k);hub.fade(0,k);/* 2026-11-23 右上角改用 GX10 3D（#gxmini） */boost*=1-Math.min(1,dt*1.6);
   if(!still){net.rotation.y+=(pose+Math.sin(t/9000)*.2-net.rotation.y)*Math.min(1,dt*2.5);net.rotation.x=Math.cos(t/11000)*.1;
     hub.rotation.y=Math.sin(t/3200+idx)*.38;led.material.size=9+Math.sin(t/400)*2+boost*7;}
   const sp=still?0:1+boost*3;if(net.visible)netPulse(dt,sp);if(hub.visible)hubPulse(dt,sp*1.4);

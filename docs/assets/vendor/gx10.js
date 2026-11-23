@@ -85,7 +85,7 @@ window.GX10Hero = function (cv, opt) {
       const pt = new THREE.Mesh(new THREE.BoxGeometry(w, h, .012), matDark); pt.position.set(x, -H * .28, BZ); g.add(pt); });
     // 標籤（浮在上方）
     const c = document.createElement('canvas'); c.width = 512; c.height = 96; const x = c.getContext('2d');
-    x.font = '800 54px "Noto Sans TC",sans-serif'; x.textAlign = 'center'; x.fillStyle = '#ffffff'; x.fillText(label, 256, 66);
+    x.font = '800 54px "Noto Sans TC",sans-serif'; x.textAlign = 'center'; x.fillStyle = '#1e3a6e'; x.fillText(label, 256, 66);
     const tag = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthTest: false })); tag.scale.set(1.1, .2, 1); tag.position.y = .62; tag.material.opacity = 0; g.add(tag);
     // 地面柔光
     const glow = new THREE.Mesh(new THREE.CircleGeometry(1.0, 64), new THREE.MeshBasicMaterial({ color: 0x2f6bff, transparent: true, opacity: .1, depthWrite: false }));
@@ -102,8 +102,8 @@ window.GX10Hero = function (cv, opt) {
   (function loop() {
     requestAnimationFrame(loop);
     if (!cv.offsetParent) return;                       // 投影片沒顯示就不畫
-    const t = (performance.now() - t0) / 1000, d = opt.two ? 6.4 : 4.6, yaw = -.55 + Math.sin(t * .35) * .35;
-    cam.position.set(Math.sin(yaw) * d, 1.55 + Math.sin(t * .25) * .15, Math.cos(yaw) * d); cam.lookAt(0, -.05, 0);
+    const t = (performance.now() - t0) / 1000, d = opt.mini ? 5.6 : (opt.two ? 6.4 : 4.6), yaw = (opt.mini ? -.35 : -.55) + Math.sin(t * .35) * (opt.mini ? .22 : .35);
+    cam.position.set(Math.sin(yaw) * d, (opt.mini ? 2.1 : 1.55) + Math.sin(t * .25) * .15, Math.cos(yaw) * d); cam.lookAt(0, opt.mini ? .05 : -.05, 0);
     [A, B].forEach((g, j) => g && g.userData.led.material.color.setScalar(.75 + .25 * Math.sin(t * 2.4 + j)));
     R.render(scene, cam);
   })();

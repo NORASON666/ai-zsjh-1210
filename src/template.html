@@ -271,12 +271,14 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 .stmt .k{font:700 34px "Noto Sans TC",sans-serif;color:#2563c9;letter-spacing:.08em;margin-bottom:26px}
 .stmt h2{margin:0;font-weight:900;font-size:156px;line-height:1.12;color:#13203a;letter-spacing:-.01em}
 .stmt p{margin:42px auto 0;max-width:1560px;font:500 40px/1.6 "Noto Sans TC",sans-serif;color:#56637d}
+#gxmini{position:absolute;right:20px;top:4px;width:380px;height:200px;z-index:6;pointer-events:none;display:none}
 </style>
 </head>
 <body>
 <div id="prog"></div>
 <div id="stage"><div id="deck">
 <!--SLIDES-->
+<canvas id="gxmini" class="gx" data-two="1" data-mini="1" aria-hidden="true"></canvas>
 </div></div>
 <aside id="panel" aria-label="補充資料與講稿"><header>
 <button data-tab="sup" class="act">📎 補充資料</button><button data-tab="notes">🗒 講稿</button>
@@ -372,7 +374,7 @@ addEventListener('keydown',e=>{if(z.classList.contains('on')){e.stopImmediatePro
 </script>
 <script src="assets/vendor/three.min.js"></script>
 <script src="assets/vendor/gx10.js"></script>
-<script>document.querySelectorAll("canvas.gx").forEach(c=>GX10Hero(c,{two:c.dataset.two==="1"}));</script>
+<script>document.querySelectorAll("canvas.gx").forEach(c=>GX10Hero(c,{two:c.dataset.two==="1",mini:c.dataset.mini==="1"}));setInterval(()=>{const on=document.querySelector(".slide.on"),m=document.getElementById("gxmini");if(m)m.style.display=(!on||/t-(cover|closing|divider|statement)/.test(on.className))?"none":"block";},150);</script>
 <script>
 // three.js 視覺層（載入失敗就不顯示，不影響簡報）
 // 封面／章節／結尾：整面 3D 節點網路；內容頁：右上角「教室裡的兩台 AI 主機＋Chromebook」小模型（取自中山平台的架構）
@@ -433,7 +435,7 @@ function frame(t){requestAnimationFrame(frame);
   if(on!==host){host=on;if(!on)return;if(on.classList.contains("t-cover"))on.appendChild(cv);else on.insertBefore(cv,on.firstChild);full=/t-(cover|divider|closing|statement)/.test(on.className);
     idx=[...on.parentNode.children].indexOf(on);pose=((idx%5)-2)*.13;boost=1;}
   if(!host)return;const dt=Math.min((t-last)/1000,.05);last=t;const k=still?1:Math.min(1,dt*5);
-  net.fade(full?.75:0,k);hub.fade(full?0:1,k);boost*=1-Math.min(1,dt*1.6);
+  net.fade(full?.75:0,k);hub.fade(0,k);/* 2026-11-23 右上角改用 GX10 3D（#gxmini） */boost*=1-Math.min(1,dt*1.6);
   if(!still){net.rotation.y+=(pose+Math.sin(t/9000)*.2-net.rotation.y)*Math.min(1,dt*2.5);net.rotation.x=Math.cos(t/11000)*.1;
     hub.rotation.y=Math.sin(t/3200+idx)*.38;led.material.size=9+Math.sin(t/400)*2+boost*7;}
   const sp=still?0:1+boost*3;if(net.visible)netPulse(dt,sp);if(hub.visible)hubPulse(dt,sp*1.4);
