@@ -55,19 +55,24 @@ def foot(d):
 def render(d):
     t = d["t"]
     if t == "cover":
-        return f'''<div class="cover">{ill("cover_bg")}
-<div class="cover-text">
-<div class="org">臺北市國民小學活化教學與多元學習工作組 參訪｜中山國中 World Labs AI智匯教室</div>
-<h1><mark>不上雲端</mark>的 AI</h1>
-<div class="hand">活化教學的另一種想像</div>
+        return f'''<div class="hero"><canvas class="gx" data-two="0"></canvas><div class="ht cover-text">
+<div class="org">臺北市國民小學活化教學與多元學習工作組 參訪<br>中山國中 World Labs AI智匯教室</div>
+<h1><span class="grad">不上雲端</span><br>的 AI</h1>
+<div class="sub">活化教學的另一種想像</div>
 <div class="meta">2026.12.10（四）　臺北市立中山國中</div>
-<div class="who"><span>臺北市數位學習中心 <b>周凡淇</b></span></div>
+<div class="who">臺北市數位學習中心　<b>周凡淇</b></div>
 </div></div>'''
     if t == "closing":
-        return f'''<div class="cover">{ill("cover_bg")}<div class="cover-text">
-<h1><mark>謝謝大家！</mark></h1><div class="hand">從「用的人」變成「做的人」</div>
+        return f'''<div class="hero"><canvas class="gx" data-two="1"></canvas><div class="ht cover-text">
+<h1 style="font-size:130px"><span class="grad">謝謝大家！</span></h1><div class="sub">從「用的人」變成「做的人」</div>
 <div class="meta">接下來：實際操作</div>
-<div class="who"><span>周凡淇｜臺北市數位學習中心｜nora@hhups.tp.edu.tw</span></div></div></div>'''
+<div class="who">周凡淇｜臺北市數位學習中心｜nora@hhups.tp.edu.tw</div></div></div>'''
+    if t == "statement":
+        k = f'<div class="k">{e(d["kicker"])}</div>' if d.get("kicker") else ""
+        sub = f'<p>{e(d["sub"])}</p>' if d.get("sub") else ""
+        return f'<div class="stmt">{k}<h2>{d["html"]}</h2>{sub}</div>'
+    if t == "fig":
+        return f'{head(d)}<div class="figw"><img src="assets/figs/{d["fig"]}.svg" alt="{e(d["title"])}"></div>{foot(d)}'
     if t == "divider":
         return f'''<div class="divider"><div class="dv-text"><div class="kicker big">{e(d["kicker"])}</div>
 <h2 class="dv-title">{e(d["title"])}</h2><div class="dv-sub">{e(d["sub"])}</div></div>
@@ -183,7 +188,7 @@ for d in S:
     CUR_SUP = d.get("sup", [])
     sh, cnt = sup_html(label)
     badge = f'<button class="supbtn" title="補充資料（S）">📎 補充（{cnt} 則）</button>' if cnt else ""
-    slides.append(f'<section class="slide t-{d["t"]}" id="p{label}" data-label="{label}"><div class="inner">{body}</div>{badge}<div class="pno">{label}</div></section>')
+    slides.append(f'<section class="slide t-{d["t"]}{" dark" if d.get("dark") else ""}" id="p{label}" data-label="{label}"><div class="inner">{body}</div>{badge}<div class="pno">{label}</div></section>')
     side.append({"n": label, "notes": note, "sup": sh})
 
 tpl = open(os.path.join(BASE, "template.html")).read()

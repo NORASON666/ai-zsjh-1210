@@ -3,7 +3,7 @@ import sys
 from playwright.sync_api import sync_playwright
 idx, out = sys.argv[1], sys.argv[2]
 with sync_playwright() as p:
-    b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1600, "height": 900})
+    b = p.chromium.launch(args=["--use-gl=angle","--use-angle=swiftshader"]); pg = b.new_page(viewport={"width": 1600, "height": 900})
     pg.goto("file://" + idx, wait_until="load"); pg.wait_for_timeout(1500)
     n = pg.locator("section.slide").count()
     for i in range(n):
