@@ -497,41 +497,25 @@ document.querySelectorAll('.slide.t-cover,.slide.t-divider,.slide.t-closing').fo
 const cv=bar.querySelector('canvas'),g=cv.getContext('2d'),val=bar.querySelector('.val'),num=bar.querySelector('.num'),unit=bar.querySelector('.unit');
 const all=[...document.querySelectorAll('.slide')],main=all.filter(s=>/^\d+$/.test(s.dataset.label)).length;
 // 2026-11-23：曲線換成 AI 元素，依頁輪流：神經網路／一個字一個字接／注意力／嵌入數字
-const MODES=[['🧠','神經網路'],['✍️','一個字一個字接'],['👀','注意力'],['🔢','字變成數字']];
-const modeEl=bar.querySelector('#zsmode');let host=null,mode=0,t0=0;
+// 2026-11-23：Nora 覺得神經網路／注意力／熱度圖放在底部很突兀，只有「一個字一個字接」自然
+// ⇒ 每頁都用同一種字塊接龍，句子依頁輪替（唐詩＋這間教室的關鍵句）
+const LINES=['床前明月光，疑是地上霜。','舉頭望明月，低頭思故鄉。','AI不在雲端，就在我們學校。','一次只算一個字，接上去再算。',
+  '春眠不覺曉，處處聞啼鳥。','背起來，不等於學會。','白日依山盡，黃河入海流。','從用的人，變成做的人。'];
+const modeEl=bar.querySelector('#zsmode');let host=null,POEM=[],t0=0;
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const POEM=[...'床前明月光疑是地上霜舉頭望明月低頭思故鄉'];
-const C1='#2563c9',C2='#7048e8',C3='#e8590c',LN='#c8d4ea';
-function dot(x,y,r,c,a){g.globalAlpha=a==null?1:a;g.fillStyle=c;g.beginPath();g.arc(x,y,r,0,7);g.fill();g.globalAlpha=1;}
+const C3='#e8590c';
 function draw(t){const FW=cv.width=cv.clientWidth*2,H=cv.height=cv.clientHeight*2;if(!FW)return;g.clearRect(0,0,FW,H);
-  const T=still?0:(t-t0)/1000,cy=H/2,W=Math.min(FW,1240);g.save();g.translate((FW-W)/2,0);   // 元素集中在中間，不拉長
-  if(mode===0){ // 神經網路：多層節點、連線、訊號由左往右
-    const L=[3,4,4,4,4,4,4,3],cols=L.length,gap=W/(cols+1),ys=(n,i)=>cy+(i-(n-1)/2)*(H-14)/4,x=c=>gap*(c+1);
-    g.lineWidth=1.4;g.strokeStyle=LN;for(let c=0;c<cols-1;c++)for(let i=0;i<L[c];i++)for(let j=0;j<L[c+1];j++){g.beginPath();g.moveTo(x(c),ys(L[c],i));g.lineTo(x(c+1),ys(L[c+1],j));g.stroke();}
-    const ph=(T*.6)%1*(cols-1);for(let k=0;k<10;k++){const c=Math.floor((ph+k*.7)%(cols-1)),f=((ph+k*.7)%(cols-1))-c,i=(k*3)%L[c],j=(k*7)%L[c+1];
-      dot(x(c)+(x(c+1)-x(c))*f,ys(L[c],i)+(ys(L[c+1],j)-ys(L[c],i))*f,4,C3);}
-    for(let c=0;c<cols;c++)for(let i=0;i<L[c];i++){const hot=Math.abs(c-ph)<.6;dot(x(c),ys(L[c],i),hot?8:6.5,c===0?C3:c===cols-1?'#e39a17':(hot?C2:C1),hot?1:.8);}
-  }else if(mode===1){ // 一個字一個字接：字塊依序亮起，最新的發光
-    const n=POEM.length,w=Math.min(H-8,W/(n+2)),x0=(W-n*w)/2,shown=4+Math.floor((T*2.2)%(n+1));
-    g.font=`900 ${Math.round(w*.62)}px "Noto Sans TC",sans-serif`;g.textAlign='center';g.textBaseline='middle';
-    for(let i=0;i<n;i++){const x=x0+i*w,on=i<shown,nw=i===shown-1;g.fillStyle=nw?C3:on?'#dfe8fa':'#eef2f8';
-      g.beginPath();g.roundRect(x+3,cy-w/2+4,w-6,w-8,8);g.fill();g.fillStyle=nw?'#fff':on?'#18409a':'#c9d3e4';g.fillText(on||i>shown?POEM[i]:'？',x+w/2,cy+2);}
-    if(shown<n){const x=x0+shown*w;g.strokeStyle=C3;g.lineWidth=2;g.setLineDash([5,5]);g.beginPath();g.roundRect(x+3,cy-w/2+4,w-6,w-8,8);g.stroke();g.setLineDash([]);}
-  }else if(mode===2){ // 注意力：一排詞，最後一個字回頭看前面（弧線粗細＝注意多少）
-    const n=14,gap=W/(n+1),q=n-1-Math.floor(T*.5)%4,wts=[.9,.2,.1,.35,.05,.25,.15,.5,.1,.3,.6,.2,.4,.1];
-    for(let i=0;i<q;i++){const x1=gap*(q+1),x2=gap*(i+1),h=(H-14)*Math.min(1,.35+(x1-x2)/W*1.6);g.strokeStyle=`rgba(232,89,12,${.25+wts[i]*.65})`;g.lineWidth=1+wts[i]*5;
-      g.beginPath();g.moveTo(x1,H-8);g.bezierCurveTo(x1,H-8-h,x2,H-8-h,x2,H-8);g.stroke();}
-    for(let i=0;i<n;i++)dot(gap*(i+1),H-8,i===q?8:5.5,i===q?C3:i<q?C1:'#c8d4ea');
-  }else{ // 字變成數字：一格格數字熱度圖，微微閃動
-    const cols=Math.floor(W/16),rows=4,cw=W/cols,ch=(H-8)/rows;
-    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const v=.5+.5*Math.sin(c*.37+r*1.7+T*1.4+Math.sin(c*.11)*3);
-      g.fillStyle=`hsl(${215+v*45},${55+v*15}%,${95-v*30}%)`;g.beginPath();g.roundRect(c*cw+1.5,4+r*ch+1.5,cw-3,ch-3,3);g.fill();}
-  }g.restore();}
+  const T=still?99:(t-t0)/1000,cy=H/2,n=POEM.length,w=Math.min(H-8,Math.min(FW,1400)/(n+2)),x0=(FW-n*w)/2,shown=Math.min(n,3+Math.floor((T*2.2)%(n+6)));
+  g.font=`900 ${Math.round(w*.6)}px "Noto Sans TC",sans-serif`;g.textAlign='center';g.textBaseline='middle';
+  for(let i=0;i<n;i++){const x=x0+i*w,on=i<shown,nw=i===shown-1&&shown<n;g.fillStyle=nw?C3:on?'#dfe8fa':'#eef2f8';
+    g.beginPath();g.roundRect(x+3,cy-w/2+4,w-6,w-8,8);g.fill();
+    g.fillStyle=nw?'#fff':on?'#18409a':'#c9d3e4';g.fillText(on||i>shown?POEM[i]:'？',x+w/2,cy+2);}
+  if(shown<n){const x=x0+shown*w;g.strokeStyle=C3;g.lineWidth=2;g.setLineDash([5,5]);g.beginPath();g.roundRect(x+3,cy-w/2+4,w-6,w-8,8);g.stroke();g.setLineDash([]);}}
 function tick(t){requestAnimationFrame(tick);
   const on=document.querySelector('.slide.on'),ok=on&&!/t-(cover|closing)/.test(on.className);
   if(on!==host){host=on;if(ok){on.appendChild(bar);const lab=on.dataset.label,n=parseInt(lab);
       num.textContent=lab;unit.textContent=isNaN(n)?'備用':'／ '+main;val.style.strokeDashoffset=157.08*(1-(isNaN(n)?1:n/main));
-      mode=[...all].indexOf(on)%MODES.length;modeEl.textContent=MODES[mode].join(' ');t0=t;}else bar.remove();}
+      POEM=[...LINES[[...all].indexOf(on)%LINES.length]];modeEl.textContent='✍️ 一個字一個字接';t0=t;}else bar.remove();}
   if(ok)draw(t);}
 requestAnimationFrame(tick);})();
 </script>
