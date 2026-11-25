@@ -79,6 +79,8 @@ def render(d):
 <div class="dr-bar"><i id="drbar"></i></div></div>
 <div class="dr-side"><div class="dr-prompt"><b>學生打的字</b>月亮上的一隻貓（童書插畫）<b>AI 改寫的英文提示詞</b><span>a cute fluffy cat, sitting on a glowing crescent moon, starry night sky, children's book illustration style…</span></div>
 <div class="dr-strip">{th}</div></div></div>{foot(d)}'''
+    if t == "iso":  # 互動圖解：docs/assets/iso/<名稱>.html（由 zsjh-ai/docs/learn/iso 產生後複製過來）
+        return f'{head(d)}<div class="isorow"><div class="isow"><iframe src="assets/iso/{d["iso"]}.html?embed&slim&deck" title="{html.escape(d["title"])}" loading="lazy"></iframe></div><div class="isoside">{foot(d)}</div></div>'
     if t == "fig":
         return f'{head(d)}<div class="figw"><img src="assets/figs/{d["fig"]}.svg" alt="{e(d["title"])}"></div>{foot(d)}'
     if t == "divider":

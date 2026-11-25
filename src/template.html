@@ -277,7 +277,13 @@ ol.bul li::marker{font-weight:900;color:var(--blue)}
 .t-illus .illus{flex:1;min-height:0;display:flex;justify-content:center;align-items:center;margin:4px 0 6px}
 .t-illus .illus .ill{height:100%;max-width:100%;object-fit:contain;mix-blend-mode:normal;background:#fff;padding:14px;border-radius:32px;
   box-shadow:0 26px 64px rgba(30,58,110,.16),0 0 0 1px rgba(30,58,110,.06)}
-.t-illus .foot,.t-fig .foot{font-size:34px}
+.t-illus .foot,.t-fig .foot,.t-iso .foot{font-size:34px}
+/* 2026-11-25：互動圖解（iframe）在左、說明在右；圖依回報的高度縮放到剛好放進左欄 */
+.isorow{flex:1;min-height:0;display:flex;gap:48px;margin-top:14px}
+.isow{flex:0 0 1010px;min-height:0;position:relative}
+.isoside{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:28px}
+.isoside .rel{flex-direction:column;align-items:flex-start;gap:12px;font-size:36px;margin:0}.isoside .foot{margin:0}
+.isow iframe{position:absolute;left:50%;top:0;width:760px;height:600px;border:0;border-radius:14px;transform-origin:0 0;background:#fbfbfa;box-shadow:0 24px 60px rgba(30,58,110,.14),0 0 0 1px rgba(30,58,110,.06)}
 /* 純條列頁：每點一張橫向卡片 */
 .t-bullets .bul{list-style:none;padding:0;margin:auto 0;display:flex;flex-direction:column;gap:26px;font-size:46px}
 .t-bullets .bul li{position:relative;margin:0;background:#fff;border:1.5px solid #dfe7f3;border-radius:26px;padding:26px 40px 26px 92px;
@@ -336,6 +342,12 @@ const SIDE=/*SIDE*/[];
 const slides=[...document.querySelectorAll('.slide')];
 let cur=0, tab='sup';
 const panel=document.getElementById('panel'), pbody=document.getElementById('pbody');
+// 2026-11-25：互動圖解回報高度後縮放置中；在圖解裡按的鍵交還給簡報，才能照常換頁
+const isoFit=f=>{const w=f.parentElement,h=+f.dataset.h||600;if(!w.clientHeight)return;const k=Math.min(w.clientHeight/h,w.clientWidth/760);f.style.height=h+'px';f.style.transform=`translateX(${-380*k}px) scale(${k})`;};
+addEventListener('message',e=>{const f=[...document.querySelectorAll('.isow iframe')].find(f=>f.contentWindow===e.source);if(!f||!e.data)return;
+  if(e.data.zsIso&&e.data.height>200){f.dataset.h=e.data.height;isoFit(f);}
+  if(e.data.zsKey)dispatchEvent(new KeyboardEvent('keydown',{key:e.data.zsKey.key,code:e.data.zsKey.code}));});
+addEventListener('load',()=>document.querySelectorAll('.isow').forEach(w=>new ResizeObserver(()=>isoFit(w.firstElementChild)).observe(w)));
 function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);document.getElementById('deck').style.transform=`scale(${s})`;}
 function show(i){cur=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,k)=>s.classList.toggle('on',k===cur));
   history.replaceState(null,'','#p'+slides[cur].dataset.label);document.getElementById('prog').style.width=((cur+1)/slides.length*100)+'%';renderPanel();}
